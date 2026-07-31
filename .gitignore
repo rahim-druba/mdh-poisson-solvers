@@ -1,0 +1,97 @@
+# This repository ships hand-written source only. Everything below is
+# either a compiled binary or machine-generated output, and none of it
+# belongs in version control: compiled binaries are architecture and
+# driver specific, and generated kernels are multi-megabyte machine
+# output that nobody should be reading in a diff. Regenerate locally
+# using each folder's build instructions instead.
+
+# compiled binaries: exact names for the single-binary folders, and
+# prefix patterns for the swept folders (many sizes, one binary each,
+# no file extension) -- each prefix pattern is followed by an explicit
+# un-ignore for the real source files that happen to share the prefix,
+# so hand-written .cu/.c/.h/.sh source is never accidentally excluded.
+1_sparse_rewrite/kernel_sparse
+2_mdh_sparse/kernel_mdh_sparse
+2_mdh_sparse/mdh_generator_source/test_cg_matvec
+3_ppcg/kernel_ppcg_sparse
+3_ppcg/test_cg_matvec_ppcg
+4_cusparse/kernel_cusparse
+
+5_3d_extension/kernel_*
+5_3d_extension/test_*
+5_3d_extension/bench_*
+5_3d_extension/sparse_*
+5_3d_extension/mdh_*
+5_3d_extension/ppcg_*
+5_3d_extension/cusparse_*
+!5_3d_extension/*.cu
+!5_3d_extension/*.c
+!5_3d_extension/*.h
+!5_3d_extension/*.sh
+!5_3d_extension/*.md
+
+6_multigrid/kernel_multigrid_2d*
+6_multigrid/test_cpu_vcycle
+6_multigrid/test_gpu_multigrid_kernels
+6_multigrid/mg_*
+!6_multigrid/*.cu
+!6_multigrid/*.h
+!6_multigrid/*.sh
+!6_multigrid/*.md
+
+7_preconditioning/kernel_jacobi_pcg
+7_preconditioning/kernel_ilu0_pcg
+7_preconditioning/plaincg_*
+7_preconditioning/jacobi_*
+7_preconditioning/ilu0_*
+!7_preconditioning/*.cu
+!7_preconditioning/*.sh
+!7_preconditioning/*.md
+
+8_real_application/kernel_mdh_heat
+8_real_application/kernel_sparse_heat
+
+tables/**/bench_*
+tables/**/sparse_*
+tables/**/mdh_*
+tables/**/ppcg_*
+tables/**/cusparse_*
+tables/full_cg/kernel_*_cg
+!tables/**/*.cu
+!tables/**/*.c
+!tables/**/*.sh
+!tables/**/*.md
+
+# generic build artifacts
+*.o
+*.obj
+*.out
+*.exe
+*.exp
+*.lib
+
+# machine-generated kernels, if you run the MDH or PPCG generators
+# in-place inside this tree
+cg_matvec_1.cu
+cg_matvec_2.cu
+cg_matvec_3d_1.cu
+cg_matvec_3d_2.cu
+gemm_1.cu
+gemm_2.cu
+matvec_dense_1.cu
+*_ppcg_src_host.cu
+*_ppcg_src_kernel.cu
+*_ppcg_src_kernel.hu
+
+# generated data output, if you rerun a solver or a profiling pass locally
+solution_*.txt
+*_ncu.txt
+occ_*.txt
+
+# python
+__pycache__/
+*.pyc
+
+# editor / OS noise
+.DS_Store
+*.swp
