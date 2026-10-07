@@ -34,9 +34,9 @@ plt.close(fig)
 # ---------------------------------------------------------------------
 fig, ax = plt.subplots(figsize=(6, 4.5))
 n_cg2d = [512, 1024, 2048, 4096]
-t_cg2d_best = [1.1617, 1.5082, 2.9023, 4.9836]  # fastest CG variant at each size
+t_cg2d_best = [0.9009, 1.2512, 2.9202, 5.1122]  # fastest CG variant at each size
 n_mg = [961, 3969, 16129, 65025]
-t_mg = [0.4570, 0.5839, 0.8281, 1.2780]
+t_mg = [0.443, 0.5868, 0.8534, 1.2638]
 
 ax.plot(n_cg2d, t_cg2d_best, "o-", label="best CG variant (2D)", color="#d62728")
 ax.plot(n_mg, t_mg, "^-", label="multigrid (2D)", color="#2ca02c")
@@ -44,7 +44,7 @@ ax.set_xscale("log")
 ax.set_yscale("log")
 ax.set_xlabel("N (unknowns)")
 ax.set_ylabel("solve time (ms)")
-ax.set_title("Multigrid vs CG: the gap widens with N\n(3.3x faster at N~1024, 8.5x faster at N~4096)")
+ax.set_title("Multigrid vs CG: the gap widens with N\n(2.8x faster at N~1024, 8.7x faster at N~4096)")
 ax.legend()
 ax.grid(alpha=0.3, which="both")
 fig.tight_layout()
@@ -56,11 +56,11 @@ plt.close(fig)
 # ---------------------------------------------------------------------
 fig, ax = plt.subplots(figsize=(6, 4.5))
 n_cg2d_w = [512, 1024, 2048, 4096]
-eff_cg2d = [2.436, 1.494, 1.417, 1.217]  # sparse, us/unknown
+eff_cg2d = [2.529, 1.523, 1.479, 1.271]  # sparse, us/unknown
 n_cg3d_w = [512, 4096, 13824, 32768]
-eff_cg3d = [0.903, 0.358, 0.338, 0.404]  # sparse, us/unknown -- note the reversal at 32768
+eff_cg3d = [0.912, 0.369, 0.354, 0.4]  # sparse, us/unknown -- note the reversal at 32768
 n_mg_w = [961, 3969, 16129, 65025]
-eff_mg = [0.4755, 0.1471, 0.0513, 0.0197]
+eff_mg = [0.461, 0.1478, 0.0529, 0.0194]
 
 ax.plot(n_cg2d_w, eff_cg2d, "o-", label="2D CG (sparse)", color="#d62728")
 ax.plot(n_cg3d_w, eff_cg3d, "s-", label="3D CG (sparse)", color="#ff7f0e")

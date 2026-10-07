@@ -94,3 +94,7 @@ only next to other CG variants.
   implementation safety, not because it's optimal - red-black Gauss-Seidel
   would likely converge in fewer V-cycles still, not attempted here.
 - Precision is `float` throughout, same as the rest of this project.
+
+## Re-run used in the final paper
+
+The sweep above was repeated in a separate session under the final timing conditions (persistence mode on, charger connected, no other program running, no throttling). The logs are in `raw_rerun/`. The times (ms) are 0.4430, 0.5868, 0.8534 and 1.2638 for 961, 3969, 16129 and 65025 unknowns, with 6 V-cycles at every size. The paper tables use these values.
