@@ -1,0 +1,29 @@
+==PROF== Connected to process 544534 (/home/rahim/cg/handtuned_baseline/bin/cg_mdht_3d8)
+==PROF== Profiling "cg_matvec_3d_1": 0%....50%....100% - 1 pass
+N=512 (matrix-free: 0 bytes for A, vs 1.00 MB dense)
+b[0]: 3.000
+rs_old: 2802.071
+Converged in 27 iterations, final residual norm: 7.111249e-07
+Max abs error vs analytical solution: 9.536743e-07
+Time taken for main loop: 94.919 ms
+==PROF== Disconnected from process 544534
+[544534] cg_mdht_3d8@127.0.0.1
+  cg_matvec_3d_1(const float *, float *, float *), 2026-Oct-07 12:55:51, Context 1, Stream 7
+    Section: Occupancy
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    Block Limit SM                                                                   block                             16
+    Block Limit Registers                                                            block                             48
+    Block Limit Shared Mem                                                           block                             25
+    Block Limit Warps                                                                block                             48
+    Theoretical Active Warps per SM                                                   warp                             16
+    Theoretical Occupancy                                                                %                          33,33
+    Achieved Occupancy                                                                   %                           2,08
+    Achieved Active Warps Per SM                                                      warp                              1
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    WRN   This kernel's theoretical occupancy (33.3%) is limited by the number of blocks that can fit on the SM The     
+          difference between calculated theoretical (33.3%) and measured achieved occupancy (2.1%) can be the result    
+          of warp scheduling overheads or workload imbalances during the kernel execution. Load imbalances can occur    
+          between warps within a block as well as across blocks of the same kernel. See the CUDA Best Practices Guide   
+          (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more details on           
+          optimizing occupancy.                                                                                         
+

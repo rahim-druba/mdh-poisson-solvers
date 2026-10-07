@@ -1,0 +1,47 @@
+=== hand-tuned matrix-free baseline: Ap = A*p, 2D, 4096x4096, N=16777216 ===
+device: NVIDIA GeForce RTX 5090, 170 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x8                0.08186 ms (+-0.02%)  1639.7 GB/s  err 0.00e+00  ok
+  naive 16x16               0.08931 ms (+-0.07%)  1502.9 GB/s  err 0.00e+00  ok
+  reg   32x4 cy1            0.08039 ms (+-0.06%)  1669.6 GB/s  err 0.00e+00  ok
+  reg   32x4 cy2            0.07909 ms (+-0.06%)  1697.0 GB/s  err 0.00e+00  ok
+  reg   32x4 cy4            0.07933 ms (+-0.05%)  1691.8 GB/s  err 0.00e+00  ok
+  reg   32x4 cy8            0.08006 ms (+-0.02%)  1676.4 GB/s  err 0.00e+00  ok
+  reg   32x8 cy1            0.08074 ms (+-0.01%)  1662.4 GB/s  err 0.00e+00  ok
+  reg   32x8 cy2            0.07901 ms (+-0.07%)  1698.7 GB/s  err 0.00e+00  ok
+  reg   32x8 cy4            0.07922 ms (+-0.08%)  1694.2 GB/s  err 0.00e+00  ok
+  reg   64x4 cy1            0.07949 ms (+-0.05%)  1688.4 GB/s  err 0.00e+00  ok
+  reg   64x4 cy2            0.07826 ms (+-0.46%)  1714.9 GB/s  err 0.00e+00  ok
+  reg   64x4 cy4            0.07838 ms (+-0.13%)  1712.4 GB/s  err 0.00e+00  ok
+  reg   64x4 cy8            0.07890 ms (+-0.04%)  1701.1 GB/s  err 0.00e+00  ok
+  reg   128x2 cy1           0.07963 ms (+-0.05%)  1685.5 GB/s  err 0.00e+00  ok
+  reg   128x2 cy2           0.07817 ms (+-0.14%)  1717.1 GB/s  err 0.00e+00  ok
+  reg   128x2 cy4           0.07802 ms (+-0.21%)  1720.2 GB/s  err 0.00e+00  ok
+  reg   128x2 cy8           0.07832 ms (+-0.23%)  1713.7 GB/s  err 0.00e+00  ok
+  reg   128x1 cy4           0.07829 ms (+-0.09%)  1714.4 GB/s  err 0.00e+00  ok
+  reg   128x1 cy8           0.07824 ms (+-0.41%)  1715.5 GB/s  err 0.00e+00  ok
+  reg   256x1 cy4           0.07782 ms (+-0.19%)  1724.7 GB/s  err 0.00e+00  ok
+  reg   256x1 cy8           0.07776 ms (+-0.09%)  1726.1 GB/s  err 0.00e+00  ok
+  smem  32x8 cy1            0.09071 ms (+-0.05%)  1479.6 GB/s  err 0.00e+00  ok
+  smem  32x8 cy2            0.09408 ms (+-0.05%)  1426.7 GB/s  err 0.00e+00  ok
+  smem  32x8 cy4            0.09663 ms (+-0.06%)  1389.0 GB/s  err 0.00e+00  ok
+  smem  64x4 cy1            0.08801 ms (+-0.04%)  1525.1 GB/s  err 0.00e+00  ok
+  smem  64x4 cy2            0.09048 ms (+-0.02%)  1483.4 GB/s  err 0.00e+00  ok
+  smem  64x4 cy4            0.09289 ms (+-0.03%)  1444.9 GB/s  err 0.00e+00  ok
+  smem  32x16 cy1           0.09510 ms (+-0.03%)  1411.3 GB/s  err 0.00e+00  ok
+  smem  32x16 cy2           0.09627 ms (+-0.08%)  1394.1 GB/s  err 0.00e+00  ok
+  smem  128x2 cy1           0.08788 ms (+-0.02%)  1527.3 GB/s  err 0.00e+00  ok
+  smem  128x2 cy4           0.09133 ms (+-0.04%)  1469.6 GB/s  err 0.00e+00  ok
+
+# MDH-generated kernel (existing config, same harness)
+  MDH (generated)           0.09674 ms (+-23.18%)  1387.3 GB/s  err 7.63e-06  ok
+
+# summary (best correct config per family)
+  best naive  naive 32x8                0.08186 ms   1639.7 GB/s
+  best reg    reg   256x1 cy8           0.07776 ms   1726.1 GB/s
+  best smem   smem  128x2 cy1           0.08788 ms   1527.3 GB/s
+  HAND-TUNED CEILING: reg   256x1 cy8  0.07776 ms
+  MDH: 0.09674 ms (correct: yes)  ->  MDH / hand-tuned = 1.24x

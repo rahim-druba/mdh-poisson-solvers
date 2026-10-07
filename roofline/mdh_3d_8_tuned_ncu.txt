@@ -1,0 +1,20 @@
+==PROF== Connected to process 544513 (/home/rahim/cg/handtuned_baseline/bin/cg_mdht_3d8)
+==PROF== Profiling "cg_matvec_3d_1": 0%....50%....100% - 7 passes
+N=512 (matrix-free: 0 bytes for A, vs 1.00 MB dense)
+b[0]: 3.000
+rs_old: 2802.071
+Converged in 27 iterations, final residual norm: 7.111249e-07
+Max abs error vs analytical solution: 9.536743e-07
+Time taken for main loop: 115.194 ms
+==PROF== Disconnected from process 544513
+[544513] cg_mdht_3d8@127.0.0.1
+  cg_matvec_3d_1(const float *, float *, float *), 2026-Oct-07 12:55:51, Context 1, Stream 7
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    dram__bytes.sum                                                                  Kbyte                           2,18
+    dram__bytes.sum.per_second                                                Mbyte/second                         781,61
+    dram__throughput.avg.pct_of_peak_sustained_elapsed                                   %                           0,58
+    gpu__time_duration.sum                                                         usecond                           2,78
+    sm__throughput.avg.pct_of_peak_sustained_elapsed                                     %                           0,80
+    ---------------------------------------------------------------------- --------------- ------------------------------
+

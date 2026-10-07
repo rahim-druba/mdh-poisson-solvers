@@ -1,0 +1,25 @@
+# PPCG tuning 2d 16x32: 111 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00132 ms cfg=[8,64 | 8,32]
+# PPCG tuning 2d 32x32: 111 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00133 ms cfg=[8,128 | 8,64]
+# PPCG tuning 2d 32x64: 111 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00134 ms cfg=[8,32 | 8,32]
+# PPCG tuning 2d 64x64: 111 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00135 ms cfg=[8,64 | 8,64]
+# PPCG tuning 3d 8: 575 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00133 ms cfg=[2,4,64 | 2,4,64]
+# PPCG tuning 3d 16: 575 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00140 ms cfg=[4,4,64 | 4,4,64]
+# PPCG tuning 3d 24: 575 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00166 ms cfg=[2,4,64 | 2,4,32]
+# PPCG tuning 3d 32: 575 candidate configs (cfg = tile | block, PPCG --sizes index order)
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+BEST_PPCG_TUNED 0.00192 ms cfg=[4,16,32 | 4,8,32]
+ALL_DONE

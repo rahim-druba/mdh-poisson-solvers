@@ -1,0 +1,8 @@
+# hand-tuned reg 32x4 c4; MDH stencil cfg [2 4 32 2 0]; dot WG=4096 WI=256; axpy WI=256; variants D fused-hw, E fused-hw+MDH-stencil, A unfused-hw, B unfused-hw+MDH-stencil, C fully-MDH
+D cg-resident MV=0 VEC=-1     0.63864 ms/iter (+-0.49%)   residual norm after 100 iterations: 4.736143e+02
+E cg-resident MV=3 VEC=-1     0.63378 ms/iter (+-0.07%)   residual norm after 100 iterations: 4.736323e+02
+A cg-resident MV=0 VEC=0     0.70530 ms/iter (+-0.03%)   residual norm after 100 iterations: 4.736143e+02
+B cg-resident MV=3 VEC=0     0.70649 ms/iter (+-0.52%)   residual norm after 100 iterations: 4.736323e+02
+C cg-resident MV=3 VEC=1     0.70418 ms/iter (+-0.09%)   residual norm after 100 iterations: 4.736038e+02
+F cg-resident MV=1 VEC=-1     1.35614 ms/iter (+-0.05%)   residual norm after 100 iterations: 4.736186e+02
+G cg-resident MV=2 VEC=-1     1.40015 ms/iter (+-0.26%)   residual norm after 100 iterations: 4.736118e+02

@@ -28,6 +28,7 @@ The question this whole project investigates: for a memory-bound stencil operato
 | `6_multigrid/` | A hand-written geometric multigrid solver, benchmarked against every CG variant |
 | `7_preconditioning/` | Jacobi and ILU(0) preconditioned CG, tested against plain CG |
 | `8_real_application/` | A real physical scenario (heat conduction with a localized source) solved and cross-verified |
+| `handtuned_baseline/`, `ppcg_tuning/`, `mdh_specs/` | Experiments of the revision: hand-tuned matrix-free baseline, PPCG with tuned tile/block sizes, second GPU (RTX 5090), GPU-resident and fully MDH-generated CG; see [`handtuned_baseline/README.md`](handtuned_baseline/README.md) |
 | `tables/` | Three 2D comparison tables swept across sizes: matrix-vector product, full CG solve, and dense matrix multiply |
 | `roofline/` | Nsight Compute profiling: measured memory bandwidth, compute throughput, and GPU occupancy |
 | `scaling_analysis/` | Strong and weak scaling analysis built from the data above |
@@ -46,7 +47,7 @@ Every GPU kernel, at every problem size, in every section below, passed this che
 
 ## Requirements
 
-- An NVIDIA GPU. All numbers in this repository were measured on an RTX 3050 Laptop GPU (4GB, compute capability 8.6).
+- An NVIDIA GPU. The numbers in sections 1 to 8 of this repository were measured on an RTX 3050 Laptop GPU (4GB, compute capability 8.6); the experiments of `handtuned_baseline/` were measured on that GPU and on an RTX 5090 (CUDA 12.9, compute capability 12.0).
 - CUDA Toolkit with `nvcc` on your PATH. Developed and tested against CUDA 11.7.
 - `cusparse` (ships with the CUDA toolkit) for the cuSPARSE-based solvers and the preconditioning section.
 - Python 3 with matplotlib, only needed to regenerate the figures in `figures/` and `8_real_application/`.

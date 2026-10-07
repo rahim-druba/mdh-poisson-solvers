@@ -1,0 +1,64 @@
+### 2D N=512 (16x32) MDH untuned 
+=== 4-way matvec comparison: Ap = A*p, N=512 (16x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00228    3.815e-06        yes
+mdh           0.00151    3.815e-06        yes
+ppcg          0.00150    0.000e+00        yes
+cusparse      0.00585    3.815e-06        yes
+### 2D N=512 (16x32) MDH tuned cfg=[4 32 2 0]
+=== 4-way matvec comparison: Ap = A*p, N=512 (16x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00205    3.815e-06        yes
+mdh           0.00137    3.815e-06        yes
+ppcg          0.00149    0.000e+00        yes
+cusparse      0.00590    3.815e-06        yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 2D, 16x32, N=512 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x8                0.00134 ms (+-0.18%)     3.1 GB/s  err 0.00e+00  ok
+  naive 16x16               0.00135 ms (+-0.23%)     3.0 GB/s  err 0.00e+00  ok
+  reg   32x4 cy1            0.00136 ms (+-4.52%)     3.0 GB/s  err 0.00e+00  ok
+  reg   32x4 cy2            0.00146 ms (+-0.23%)     2.8 GB/s  err 0.00e+00  ok
+  reg   32x4 cy4            0.00163 ms (+-0.18%)     2.5 GB/s  err 0.00e+00  ok
+  reg   32x4 cy8            0.00219 ms (+-0.14%)     1.9 GB/s  err 0.00e+00  ok
+  reg   32x8 cy1            0.00134 ms (+-0.28%)     3.1 GB/s  err 0.00e+00  ok
+  reg   32x8 cy2            0.00138 ms (+-0.22%)     3.0 GB/s  err 0.00e+00  ok
+  reg   32x8 cy4            0.00163 ms (+-0.22%)     2.5 GB/s  err 0.00e+00  ok
+  reg   64x4 cy1            0.00133 ms (+-0.25%)     3.1 GB/s  err 0.00e+00  ok
+  reg   64x4 cy2            0.00148 ms (+-0.32%)     2.8 GB/s  err 0.00e+00  ok
+  reg   64x4 cy4            0.00168 ms (+-0.29%)     2.4 GB/s  err 0.00e+00  ok
+  reg   64x4 cy8            0.00219 ms (+-0.14%)     1.9 GB/s  err 0.00e+00  ok
+  reg   128x2 cy1           0.00134 ms (+-0.13%)     3.1 GB/s  err 0.00e+00  ok
+  reg   128x2 cy2           0.00147 ms (+-0.18%)     2.8 GB/s  err 0.00e+00  ok
+  reg   128x2 cy4           0.00173 ms (+-0.15%)     2.4 GB/s  err 0.00e+00  ok
+  reg   128x2 cy8           0.00220 ms (+-0.10%)     1.9 GB/s  err 0.00e+00  ok
+  reg   128x1 cy4           0.00173 ms (+-0.50%)     2.4 GB/s  err 0.00e+00  ok
+  reg   128x1 cy8           0.00230 ms (+-0.11%)     1.8 GB/s  err 0.00e+00  ok
+  reg   256x1 cy4           0.00172 ms (+-0.19%)     2.4 GB/s  err 0.00e+00  ok
+  reg   256x1 cy8           0.00231 ms (+-1.59%)     1.8 GB/s  err 0.00e+00  ok
+  smem  32x8 cy1            0.00163 ms (+-0.21%)     2.5 GB/s  err 0.00e+00  ok
+  smem  32x8 cy2            0.00197 ms (+-0.16%)     2.1 GB/s  err 0.00e+00  ok
+  smem  32x8 cy4            0.00243 ms (+-0.11%)     1.7 GB/s  err 0.00e+00  ok
+  smem  64x4 cy1            0.00159 ms (+-0.18%)     2.6 GB/s  err 0.00e+00  ok
+  smem  64x4 cy2            0.00197 ms (+-0.19%)     2.1 GB/s  err 0.00e+00  ok
+  smem  64x4 cy4            0.00268 ms (+-0.12%)     1.5 GB/s  err 0.00e+00  ok
+  smem  32x16 cy1           0.00161 ms (+-0.24%)     2.5 GB/s  err 0.00e+00  ok
+  smem  32x16 cy2           0.00184 ms (+-0.12%)     2.2 GB/s  err 0.00e+00  ok
+  smem  128x2 cy1           0.00159 ms (+-0.14%)     2.6 GB/s  err 0.00e+00  ok
+  smem  128x2 cy4           0.00278 ms (+-0.21%)     1.5 GB/s  err 0.00e+00  ok
+
+# summary (best correct config per family)
+  best naive  naive 32x8                0.00134 ms      3.1 GB/s
+  best reg    reg   64x4 cy1            0.00133 ms      3.1 GB/s
+  best smem   smem  128x2 cy1           0.00159 ms      2.6 GB/s
+  HAND-TUNED CEILING: reg   64x4 cy1  0.00133 ms
+./paper_sizes.sh: line 62: bin/ppcg_gen_2d_512/dims.txt: No such file or directory

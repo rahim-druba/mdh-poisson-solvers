@@ -1,0 +1,2 @@
+### PPCG tuned cfg=[4,16,32 | 4,8,32]
+ppcg    0.00192 ms (+-0.13%) block 32x8x4 grid 2x8 timed 200  err 7.63e-06  ok

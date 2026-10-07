@@ -1,0 +1,10 @@
+### 3D M=32 N=32768 MDH untuned 
+=== 4-way 3D matvec comparison: Ap = A*p, N=32768 (32x32x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.01527  1.144e-05      yes
+mdh           0.00334  7.629e-06      yes
+ppcg          0.02628  7.629e-06      yes
+cusparse      0.01772  7.629e-06      yes

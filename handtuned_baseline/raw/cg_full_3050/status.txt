@@ -1,0 +1,13 @@
+2d 512 started 13:55:14
+2d 512 done 13:55:30
+2d 2048 started 13:55:30
+2d 2048 done 13:55:52
+2d 4096 started 13:55:52
+2d 4096 done 13:56:34
+3d 64 started 13:56:34
+3d 64 done 13:56:51
+3d 128 started 13:56:51
+3d 128 done 13:57:10
+3d 256 started 13:57:10
+3d 256 done 13:57:55
+ALL_DONE

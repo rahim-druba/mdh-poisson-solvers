@@ -1,0 +1,10 @@
+### 2D N=1024 (32x32) MDH tuned cfg=[8 32 2 0]
+=== 4-way matvec comparison: Ap = A*p, N=1024 (32x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00204    3.815e-06        yes
+mdh           0.00140    3.815e-06        yes
+ppcg          0.00162    0.000e+00        yes
+cusparse      0.00608    3.815e-06        yes

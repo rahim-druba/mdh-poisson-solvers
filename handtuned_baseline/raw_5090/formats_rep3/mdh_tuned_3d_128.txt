@@ -1,0 +1,9 @@
+=== hand-tuned matrix-free baseline: Ap = A*p, 3D, side 128, N=2097152 ===
+device: NVIDIA GeForce RTX 5090, 170 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+
+# MDH-generated kernel (existing config, same harness)
+  MDH (generated)           0.00486 ms (+-0.19%)  3451.4 GB/s  err 1.14e-05  ok
+  MDH: 0.00486 ms (correct: yes)

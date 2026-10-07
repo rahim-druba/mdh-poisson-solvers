@@ -1,0 +1,66 @@
+=== GPU-resident CG, 2D 512x512 N=262144, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=0     0.10573 ms/iter (+-0.20%)   residual norm after 100 iterations: 4.499321e+03
+=== GPU-resident CG, 2D 512x512 N=262144, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=1308672
+cg-resident MV=1     0.17630 ms/iter (+-2.87%)   residual norm after 100 iterations: 4.498383e+03
+=== GPU-resident CG, 2D 512x512 N=262144, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=1308672
+cg-resident MV=2     0.19605 ms/iter (+-3.43%)   residual norm after 100 iterations: 4.498130e+03
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=0     1.24226 ms/iter (+-0.72%)   residual norm after 100 iterations: 4.981465e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=20963328
+cg-resident MV=1     2.25203 ms/iter (+-0.46%)   residual norm after 100 iterations: 4.981558e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=20963328
+cg-resident MV=2     2.40237 ms/iter (+-0.48%)   residual norm after 100 iterations: 4.980924e+04
+=== GPU-resident CG, 2D 4096x4096 N=16777216, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=0     4.85463 ms/iter (+-0.46%)   residual norm after 100 iterations: 1.479004e+05
+=== GPU-resident CG, 2D 4096x4096 N=16777216, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=83869696
+cg-resident MV=1     8.94841 ms/iter (+-0.27%)   residual norm after 100 iterations: 1.481317e+05
+=== GPU-resident CG, 2D 4096x4096 N=16777216, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=83869696
+cg-resident MV=2     9.52507 ms/iter (+-0.04%)   residual norm after 100 iterations: 1.480779e+05
+=== GPU-resident CG, 3D side 64 N=262144, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=0     0.10541 ms/iter (+-0.47%)   residual norm after 100 iterations: 8.909632e-02
+=== GPU-resident CG, 3D side 64 N=262144, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=1810432
+cg-resident MV=1     0.20118 ms/iter (+-2.90%)   residual norm after 100 iterations: 8.909642e-02
+=== GPU-resident CG, 3D side 64 N=262144, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=1810432
+cg-resident MV=2     0.21521 ms/iter (+-2.13%)   residual norm after 100 iterations: 8.909771e-02
+=== GPU-resident CG, 3D side 128 N=2097152, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=0     0.64631 ms/iter (+-1.30%)   residual norm after 100 iterations: 4.736143e+02
+=== GPU-resident CG, 3D side 128 N=2097152, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=14581760
+cg-resident MV=1     1.35628 ms/iter (+-0.97%)   residual norm after 100 iterations: 4.736186e+02
+=== GPU-resident CG, 3D side 128 N=2097152, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=14581760
+cg-resident MV=2     1.40661 ms/iter (+-0.60%)   residual norm after 100 iterations: 4.736118e+02
+=== GPU-resident CG, 3D side 256 N=16777216, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=0     4.91639 ms/iter (+-0.36%)   residual norm after 100 iterations: 1.366830e+04
+=== GPU-resident CG, 3D side 256 N=16777216, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=117047296
+cg-resident MV=1    11.17675 ms/iter (+-0.27%)   residual norm after 100 iterations: 1.366819e+04
+=== GPU-resident CG, 3D side 256 N=16777216, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=117047296
+cg-resident MV=2    11.44002 ms/iter (+-0.27%)   residual norm after 100 iterations: 1.366876e+04

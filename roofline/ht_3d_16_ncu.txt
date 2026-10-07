@@ -1,0 +1,18 @@
+==PROF== Connected to process 544619 (/home/rahim/cg/handtuned_baseline/bin/cg_ht0_3d16)
+==PROF== Profiling "st_reg": 0%....50%....100% - 7 passes
+N=4096 (16^3) hand-tuned matrix-free CG, mode 0, reg 32x8 ci1
+Converged in 62 iterations, final residual norm: 6.814148e-07
+Max abs error vs analytical solution: 1.668930e-06
+Time taken for main loop: 97.164 ms
+==PROF== Disconnected from process 544619
+[544619] cg_ht0_3d16@127.0.0.1
+  void st_reg<(int)32, (int)8, (int)1>(const float *, float *, int), 2026-Oct-07 12:55:53, Context 1, Stream 7
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    dram__bytes.sum                                                                  Kbyte                          16,64
+    dram__bytes.sum.per_second                                                Gbyte/second                           5,59
+    dram__throughput.avg.pct_of_peak_sustained_elapsed                                   %                           3,91
+    gpu__time_duration.sum                                                         usecond                           2,98
+    sm__throughput.avg.pct_of_peak_sustained_elapsed                                     %                          10,19
+    ---------------------------------------------------------------------- --------------- ------------------------------
+

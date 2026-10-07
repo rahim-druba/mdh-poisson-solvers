@@ -1,0 +1,10 @@
+### 3D M=16 N=4096 MDH tuned cfg=[4 4 16 2 0]
+=== 4-way 3D matvec comparison: Ap = A*p, N=4096 (16x16x16 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.00236  7.629e-06      yes
+mdh           0.00150  7.629e-06      yes
+ppcg          0.00395  7.629e-06      yes
+cusparse      0.00669  7.629e-06      yes

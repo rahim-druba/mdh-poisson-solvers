@@ -1,0 +1,18 @@
+# hand-tuned reg 128x2 c2; MDH tuned cfg [8 64 2 0]; PPCG tuned cfg [8,128 | 2,128] (candidate 18)
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=0     1.24368 ms/iter (+-1.11%)   residual norm after 100 iterations: 4.981465e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=3, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=3     1.24393 ms/iter (+-1.44%)   residual norm after 100 iterations: 4.981564e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=4, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+cg-resident MV=4     1.24898 ms/iter (+-0.40%)   residual norm after 100 iterations: 4.981465e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=20963328
+cg-resident MV=1     2.24908 ms/iter (+-0.76%)   residual norm after 100 iterations: 4.981558e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU
+CSR: nnz=20963328
+cg-resident MV=2     2.40707 ms/iter (+-1.01%)   residual norm after 100 iterations: 4.980924e+04

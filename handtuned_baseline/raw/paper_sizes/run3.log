@@ -1,0 +1,508 @@
+### 2D N=512 (16x32) MDH untuned 
+=== 4-way matvec comparison: Ap = A*p, N=512 (16x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00225    3.815e-06        yes
+mdh           0.00151    3.815e-06        yes
+ppcg          0.00150    0.000e+00        yes
+cusparse      0.00592    3.815e-06        yes
+### 2D N=512 (16x32) MDH tuned cfg=[4 32 2 0]
+=== 4-way matvec comparison: Ap = A*p, N=512 (16x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00203    3.815e-06        yes
+mdh           0.00138    3.815e-06        yes
+ppcg          0.00148    0.000e+00        yes
+cusparse      0.00578    3.815e-06        yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 2D, 16x32, N=512 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x8                0.00132 ms (+-0.39%)     3.1 GB/s  err 0.00e+00  ok
+  naive 16x16               0.00135 ms (+-0.25%)     3.0 GB/s  err 0.00e+00  ok
+  reg   32x4 cy1            0.00132 ms (+-0.86%)     3.1 GB/s  err 0.00e+00  ok
+  reg   32x4 cy2            0.00147 ms (+-0.64%)     2.8 GB/s  err 0.00e+00  ok
+  reg   32x4 cy4            0.00163 ms (+-0.23%)     2.5 GB/s  err 0.00e+00  ok
+  reg   32x4 cy8            0.00220 ms (+-0.09%)     1.9 GB/s  err 0.00e+00  ok
+  reg   32x8 cy1            0.00135 ms (+-0.36%)     3.0 GB/s  err 0.00e+00  ok
+  reg   32x8 cy2            0.00138 ms (+-0.18%)     3.0 GB/s  err 0.00e+00  ok
+  reg   32x8 cy4            0.00164 ms (+-0.24%)     2.5 GB/s  err 0.00e+00  ok
+  reg   64x4 cy1            0.00132 ms (+-0.31%)     3.1 GB/s  err 0.00e+00  ok
+  reg   64x4 cy2            0.00148 ms (+-0.21%)     2.8 GB/s  err 0.00e+00  ok
+  reg   64x4 cy4            0.00167 ms (+-0.40%)     2.5 GB/s  err 0.00e+00  ok
+  reg   64x4 cy8            0.00220 ms (+-0.11%)     1.9 GB/s  err 0.00e+00  ok
+  reg   128x2 cy1           0.00133 ms (+-0.27%)     3.1 GB/s  err 0.00e+00  ok
+  reg   128x2 cy2           0.00148 ms (+-0.24%)     2.8 GB/s  err 0.00e+00  ok
+  reg   128x2 cy4           0.00175 ms (+-0.52%)     2.3 GB/s  err 0.00e+00  ok
+  reg   128x2 cy8           0.00222 ms (+-0.14%)     1.8 GB/s  err 0.00e+00  ok
+  reg   128x1 cy4           0.00174 ms (+-0.21%)     2.3 GB/s  err 0.00e+00  ok
+  reg   128x1 cy8           0.00225 ms (+-0.13%)     1.8 GB/s  err 0.00e+00  ok
+  reg   256x1 cy4           0.00175 ms (+-0.64%)     2.3 GB/s  err 0.00e+00  ok
+  reg   256x1 cy8           0.00225 ms (+-0.09%)     1.8 GB/s  err 0.00e+00  ok
+  smem  32x8 cy1            0.00166 ms (+-2.63%)     2.5 GB/s  err 0.00e+00  ok
+  smem  32x8 cy2            0.00198 ms (+-0.22%)     2.1 GB/s  err 0.00e+00  ok
+  smem  32x8 cy4            0.00240 ms (+-0.15%)     1.7 GB/s  err 0.00e+00  ok
+  smem  64x4 cy1            0.00161 ms (+-0.25%)     2.6 GB/s  err 0.00e+00  ok
+  smem  64x4 cy2            0.00198 ms (+-0.18%)     2.1 GB/s  err 0.00e+00  ok
+  smem  64x4 cy4            0.00271 ms (+-0.08%)     1.5 GB/s  err 0.00e+00  ok
+  smem  32x16 cy1           0.00162 ms (+-0.21%)     2.5 GB/s  err 0.00e+00  ok
+  smem  32x16 cy2           0.00186 ms (+-0.16%)     2.2 GB/s  err 0.00e+00  ok
+  smem  128x2 cy1           0.00160 ms (+-0.13%)     2.6 GB/s  err 0.00e+00  ok
+  smem  128x2 cy4           0.00272 ms (+-0.10%)     1.5 GB/s  err 0.00e+00  ok
+
+# summary (best correct config per family)
+  best naive  naive 32x8                0.00132 ms      3.1 GB/s
+  best reg    reg   32x4 cy1            0.00132 ms      3.1 GB/s
+  best smem   smem  128x2 cy1           0.00160 ms      2.6 GB/s
+  HAND-TUNED CEILING: reg   32x4 cy1  0.00132 ms
+### PPCG tuned cfg=[8,64 | 8,32]
+ppcg    0.00132 ms (+-0.29%) block 32x8x1 grid 1x2 timed 200  err 0.00e+00  ok
+### 2D N=1024 (32x32) MDH untuned 
+=== 4-way matvec comparison: Ap = A*p, N=1024 (32x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00206    3.815e-06        yes
+mdh           0.00150    3.815e-06        yes
+ppcg          0.00160    0.000e+00        yes
+cusparse      0.00600    3.815e-06        yes
+### 2D N=1024 (32x32) MDH tuned cfg=[8 32 2 0]
+=== 4-way matvec comparison: Ap = A*p, N=1024 (32x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00204    3.815e-06        yes
+mdh           0.00140    3.815e-06        yes
+ppcg          0.00162    0.000e+00        yes
+cusparse      0.00608    3.815e-06        yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 2D, 32x32, N=1024 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x8                0.00149 ms (+-0.16%)     5.5 GB/s  err 0.00e+00  ok
+  naive 16x16               0.00135 ms (+-0.12%)     6.1 GB/s  err 0.00e+00  ok
+  reg   32x4 cy1            0.00134 ms (+-0.50%)     6.1 GB/s  err 0.00e+00  ok
+  reg   32x4 cy2            0.00148 ms (+-1.15%)     5.6 GB/s  err 0.00e+00  ok
+  reg   32x4 cy4            0.00173 ms (+-0.16%)     4.7 GB/s  err 0.00e+00  ok
+  reg   32x4 cy8            0.00220 ms (+-0.30%)     3.7 GB/s  err 0.00e+00  ok
+  reg   32x8 cy1            0.00135 ms (+-0.35%)     6.1 GB/s  err 0.00e+00  ok
+  reg   32x8 cy2            0.00148 ms (+-0.21%)     5.5 GB/s  err 0.00e+00  ok
+  reg   32x8 cy4            0.00171 ms (+-0.19%)     4.8 GB/s  err 0.00e+00  ok
+  reg   64x4 cy1            0.00135 ms (+-1.38%)     6.1 GB/s  err 0.00e+00  ok
+  reg   64x4 cy2            0.00148 ms (+-0.16%)     5.5 GB/s  err 0.00e+00  ok
+  reg   64x4 cy4            0.00175 ms (+-0.60%)     4.7 GB/s  err 0.00e+00  ok
+  reg   64x4 cy8            0.00222 ms (+-0.13%)     3.7 GB/s  err 0.00e+00  ok
+  reg   128x2 cy1           0.00135 ms (+-0.24%)     6.1 GB/s  err 0.00e+00  ok
+  reg   128x2 cy2           0.00148 ms (+-0.24%)     5.5 GB/s  err 0.00e+00  ok
+  reg   128x2 cy4           0.00174 ms (+-0.33%)     4.7 GB/s  err 0.00e+00  ok
+  reg   128x2 cy8           0.00232 ms (+-0.11%)     3.5 GB/s  err 0.00e+00  ok
+  reg   128x1 cy4           0.00173 ms (+-0.16%)     4.7 GB/s  err 0.00e+00  ok
+  reg   128x1 cy8           0.00231 ms (+-0.10%)     3.6 GB/s  err 0.00e+00  ok
+  reg   256x1 cy4           0.00173 ms (+-0.04%)     4.7 GB/s  err 0.00e+00  ok
+  reg   256x1 cy8           0.00231 ms (+-0.45%)     3.5 GB/s  err 0.00e+00  ok
+  smem  32x8 cy1            0.00164 ms (+-0.28%)     5.0 GB/s  err 0.00e+00  ok
+  smem  32x8 cy2            0.00208 ms (+-0.15%)     3.9 GB/s  err 0.00e+00  ok
+  smem  32x8 cy4            0.00292 ms (+-0.17%)     2.8 GB/s  err 0.00e+00  ok
+  smem  64x4 cy1            0.00161 ms (+-2.22%)     5.1 GB/s  err 0.00e+00  ok
+  smem  64x4 cy2            0.00197 ms (+-0.17%)     4.2 GB/s  err 0.00e+00  ok
+  smem  64x4 cy4            0.00280 ms (+-0.09%)     2.9 GB/s  err 0.00e+00  ok
+  smem  32x16 cy1           0.00172 ms (+-0.19%)     4.8 GB/s  err 0.00e+00  ok
+  smem  32x16 cy2           0.00210 ms (+-0.13%)     3.9 GB/s  err 0.00e+00  ok
+  smem  128x2 cy1           0.00161 ms (+-0.17%)     5.1 GB/s  err 0.00e+00  ok
+  smem  128x2 cy4           0.00281 ms (+-1.44%)     2.9 GB/s  err 0.00e+00  ok
+
+# summary (best correct config per family)
+  best naive  naive 16x16               0.00135 ms      6.1 GB/s
+  best reg    reg   32x4 cy1            0.00134 ms      6.1 GB/s
+  best smem   smem  64x4 cy1            0.00161 ms      5.1 GB/s
+  HAND-TUNED CEILING: reg   32x4 cy1  0.00134 ms
+### PPCG tuned cfg=[8,128 | 8,64]
+ppcg    0.00134 ms (+-0.33%) block 32x8x1 grid 1x4 timed 200  err 0.00e+00  ok
+### 2D N=2048 (32x64) MDH untuned 
+=== 4-way matvec comparison: Ap = A*p, N=2048 (32x64 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00207    3.815e-06        yes
+mdh           0.00158    3.815e-06        yes
+ppcg          0.00163    0.000e+00        yes
+cusparse      0.00621    3.815e-06        yes
+### 2D N=2048 (32x64) MDH tuned cfg=[8 32 2 0]
+=== 4-way matvec comparison: Ap = A*p, N=2048 (32x64 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00204    3.815e-06        yes
+mdh           0.00141    3.815e-06        yes
+ppcg          0.00163    0.000e+00        yes
+cusparse      0.00617    3.815e-06        yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 2D, 32x64, N=2048 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x8                0.00136 ms (+-0.95%)    12.1 GB/s  err 0.00e+00  ok
+  naive 16x16               0.00137 ms (+-0.26%)    12.0 GB/s  err 0.00e+00  ok
+  reg   32x4 cy1            0.00137 ms (+-0.90%)    11.9 GB/s  err 0.00e+00  ok
+  reg   32x4 cy2            0.00148 ms (+-0.15%)    11.1 GB/s  err 0.00e+00  ok
+  reg   32x4 cy4            0.00175 ms (+-0.18%)     9.4 GB/s  err 0.00e+00  ok
+  reg   32x4 cy8            0.00225 ms (+-0.13%)     7.3 GB/s  err 0.00e+00  ok
+  reg   32x8 cy1            0.00136 ms (+-0.18%)    12.0 GB/s  err 0.00e+00  ok
+  reg   32x8 cy2            0.00151 ms (+-0.12%)    10.9 GB/s  err 0.00e+00  ok
+  reg   32x8 cy4            0.00179 ms (+-0.27%)     9.2 GB/s  err 0.00e+00  ok
+  reg   64x4 cy1            0.00137 ms (+-0.35%)    11.9 GB/s  err 0.00e+00  ok
+  reg   64x4 cy2            0.00150 ms (+-0.18%)    10.9 GB/s  err 0.00e+00  ok
+  reg   64x4 cy4            0.00179 ms (+-0.21%)     9.2 GB/s  err 0.00e+00  ok
+  reg   64x4 cy8            0.00225 ms (+-0.10%)     7.3 GB/s  err 0.00e+00  ok
+  reg   128x2 cy1           0.00138 ms (+-0.32%)    11.9 GB/s  err 0.00e+00  ok
+  reg   128x2 cy2           0.00150 ms (+-0.20%)    10.9 GB/s  err 0.00e+00  ok
+  reg   128x2 cy4           0.00176 ms (+-0.27%)     9.3 GB/s  err 0.00e+00  ok
+  reg   128x2 cy8           0.00235 ms (+-0.09%)     7.0 GB/s  err 0.00e+00  ok
+  reg   128x1 cy4           0.00176 ms (+-2.49%)     9.3 GB/s  err 0.00e+00  ok
+  reg   128x1 cy8           0.00226 ms (+-0.13%)     7.3 GB/s  err 0.00e+00  ok
+  reg   256x1 cy4           0.00175 ms (+-0.14%)     9.4 GB/s  err 0.00e+00  ok
+  reg   256x1 cy8           0.00226 ms (+-0.11%)     7.2 GB/s  err 0.00e+00  ok
+  smem  32x8 cy1            0.00176 ms (+-0.20%)     9.3 GB/s  err 0.00e+00  ok
+  smem  32x8 cy2            0.00235 ms (+-0.12%)     7.0 GB/s  err 0.00e+00  ok
+  smem  32x8 cy4            0.00334 ms (+-0.10%)     4.9 GB/s  err 0.00e+00  ok
+  smem  64x4 cy1            0.00163 ms (+-0.24%)    10.0 GB/s  err 0.00e+00  ok
+  smem  64x4 cy2            0.00202 ms (+-0.09%)     8.1 GB/s  err 0.00e+00  ok
+  smem  64x4 cy4            0.00287 ms (+-0.08%)     5.7 GB/s  err 0.00e+00  ok
+  smem  32x16 cy1           0.00186 ms (+-0.21%)     8.8 GB/s  err 0.00e+00  ok
+  smem  32x16 cy2           0.00236 ms (+-0.10%)     6.9 GB/s  err 0.00e+00  ok
+  smem  128x2 cy1           0.00163 ms (+-0.14%)    10.0 GB/s  err 0.00e+00  ok
+  smem  128x2 cy4           0.00284 ms (+-0.05%)     5.8 GB/s  err 0.00e+00  ok
+
+# summary (best correct config per family)
+  best naive  naive 32x8                0.00136 ms     12.1 GB/s
+  best reg    reg   32x8 cy1            0.00136 ms     12.0 GB/s
+  best smem   smem  128x2 cy1           0.00163 ms     10.0 GB/s
+  HAND-TUNED CEILING: reg   32x8 cy1  0.00136 ms
+### PPCG tuned cfg=[8,32 | 8,32]
+ppcg    0.00134 ms (+-0.35%) block 32x8x1 grid 2x4 timed 200  err 0.00e+00  ok
+### 2D N=4096 (64x64) MDH untuned 
+=== 4-way matvec comparison: Ap = A*p, N=4096 (64x64 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00217    3.815e-06        yes
+mdh           0.00163    3.815e-06        yes
+ppcg          0.00168    0.000e+00        yes
+cusparse      0.00692    3.815e-06        yes
+### 2D N=4096 (64x64) MDH tuned cfg=[8 32 2 0]
+=== 4-way matvec comparison: Ap = A*p, N=4096 (64x64 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.00218    3.815e-06        yes
+mdh           0.00152    3.815e-06        yes
+ppcg          0.00167    0.000e+00        yes
+cusparse      0.00649    3.815e-06        yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 2D, 64x64, N=4096 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x8                0.00139 ms (+-0.31%)    23.6 GB/s  err 0.00e+00  ok
+  naive 16x16               0.00142 ms (+-3.44%)    23.1 GB/s  err 0.00e+00  ok
+  reg   32x4 cy1            0.00142 ms (+-0.33%)    23.0 GB/s  err 0.00e+00  ok
+  reg   32x4 cy2            0.00153 ms (+-2.85%)    21.4 GB/s  err 0.00e+00  ok
+  reg   32x4 cy4            0.00177 ms (+-0.19%)    18.5 GB/s  err 0.00e+00  ok
+  reg   32x4 cy8            0.00228 ms (+-0.16%)    14.4 GB/s  err 0.00e+00  ok
+  reg   32x8 cy1            0.00140 ms (+-0.22%)    23.5 GB/s  err 0.00e+00  ok
+  reg   32x8 cy2            0.00153 ms (+-1.23%)    21.5 GB/s  err 0.00e+00  ok
+  reg   32x8 cy4            0.00180 ms (+-0.37%)    18.2 GB/s  err 0.00e+00  ok
+  reg   64x4 cy1            0.00141 ms (+-0.35%)    23.3 GB/s  err 0.00e+00  ok
+  reg   64x4 cy2            0.00152 ms (+-0.39%)    21.6 GB/s  err 0.00e+00  ok
+  reg   64x4 cy4            0.00179 ms (+-0.16%)    18.3 GB/s  err 0.00e+00  ok
+  reg   64x4 cy8            0.00238 ms (+-0.07%)    13.8 GB/s  err 0.00e+00  ok
+  reg   128x2 cy1           0.00141 ms (+-0.17%)    23.2 GB/s  err 0.00e+00  ok
+  reg   128x2 cy2           0.00152 ms (+-0.24%)    21.6 GB/s  err 0.00e+00  ok
+  reg   128x2 cy4           0.00177 ms (+-0.18%)    18.5 GB/s  err 0.00e+00  ok
+  reg   128x2 cy8           0.00237 ms (+-0.14%)    13.8 GB/s  err 0.00e+00  ok
+  reg   128x1 cy4           0.00177 ms (+-0.17%)    18.5 GB/s  err 0.00e+00  ok
+  reg   128x1 cy8           0.00227 ms (+-0.15%)    14.4 GB/s  err 0.00e+00  ok
+  reg   256x1 cy4           0.00177 ms (+-0.19%)    18.6 GB/s  err 0.00e+00  ok
+  reg   256x1 cy8           0.00228 ms (+-0.11%)    14.4 GB/s  err 0.00e+00  ok
+  smem  32x8 cy1            0.00178 ms (+-0.20%)    18.4 GB/s  err 0.00e+00  ok
+  smem  32x8 cy2            0.00229 ms (+-0.02%)    14.3 GB/s  err 0.00e+00  ok
+  smem  32x8 cy4            0.00349 ms (+-0.08%)     9.4 GB/s  err 0.00e+00  ok
+  smem  64x4 cy1            0.00167 ms (+-0.21%)    19.6 GB/s  err 0.00e+00  ok
+  smem  64x4 cy2            0.00204 ms (+-0.08%)    16.0 GB/s  err 0.00e+00  ok
+  smem  64x4 cy4            0.00289 ms (+-0.12%)    11.3 GB/s  err 0.00e+00  ok
+  smem  32x16 cy1           0.00188 ms (+-0.13%)    17.5 GB/s  err 0.00e+00  ok
+  smem  32x16 cy2           0.00249 ms (+-0.21%)    13.1 GB/s  err 0.00e+00  ok
+  smem  128x2 cy1           0.00169 ms (+-0.16%)    19.4 GB/s  err 0.00e+00  ok
+  smem  128x2 cy4           0.00280 ms (+-0.08%)    11.7 GB/s  err 0.00e+00  ok
+
+# summary (best correct config per family)
+  best naive  naive 32x8                0.00139 ms     23.6 GB/s
+  best reg    reg   32x8 cy1            0.00140 ms     23.5 GB/s
+  best smem   smem  64x4 cy1            0.00167 ms     19.6 GB/s
+  HAND-TUNED CEILING: reg   32x8 cy1  0.00140 ms
+### PPCG tuned cfg=[8,64 | 8,64]
+ppcg    0.00136 ms (+-0.19%) block 64x8x1 grid 1x8 timed 200  err 0.00e+00  ok
+### 3D M=8 N=512 MDH untuned 
+=== 4-way 3D matvec comparison: Ap = A*p, N=512 (8x8x8 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.00217  7.629e-06      yes
+mdh           0.00179  7.629e-06      yes
+ppcg          0.00193  3.815e-06      yes
+cusparse      0.00593  7.629e-06      yes
+### 3D M=8 N=512 MDH tuned cfg=[4 2 8 2 0]
+=== 4-way 3D matvec comparison: Ap = A*p, N=512 (8x8x8 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.00219  7.629e-06      yes
+mdh           0.00146  7.629e-06      yes
+ppcg          0.00188  3.815e-06      yes
+cusparse      0.00589  7.629e-06      yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 3D, side 8, N=512 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x4x2              0.00154 ms (+-0.16%)     2.7 GB/s  err 0.00e+00  ok
+  naive 8x8x8               0.00141 ms (+-0.26%)     2.9 GB/s  err 0.00e+00  ok
+  reg   32x4 ci1            0.00142 ms (+-1.46%)     2.9 GB/s  err 7.63e-06  ok
+  reg   32x4 ci4            0.00190 ms (+-2.23%)     2.2 GB/s  err 7.63e-06  ok
+  reg   32x4 ci8            0.00246 ms (+-0.23%)     1.7 GB/s  err 7.63e-06  ok
+  reg   32x4 ci16           0.00242 ms (+-0.14%)     1.7 GB/s  err 7.63e-06  ok
+  reg   32x8 ci1            0.00143 ms (+-0.17%)     2.9 GB/s  err 7.63e-06  ok
+  reg   32x8 ci4            0.00192 ms (+-1.10%)     2.1 GB/s  err 7.63e-06  ok
+  reg   32x8 ci8            0.00250 ms (+-0.15%)     1.6 GB/s  err 7.63e-06  ok
+  reg   32x8 ci16           0.00243 ms (+-0.18%)     1.7 GB/s  err 7.63e-06  ok
+  reg   64x4 ci4            0.00191 ms (+-0.55%)     2.1 GB/s  err 7.63e-06  ok
+  reg   64x4 ci8            0.00252 ms (+-0.16%)     1.6 GB/s  err 7.63e-06  ok
+  reg   64x4 ci16           0.00252 ms (+-0.07%)     1.6 GB/s  err 7.63e-06  ok
+  reg   16x16 ci4           0.00187 ms (+-0.19%)     2.2 GB/s  err 7.63e-06  ok
+  reg   16x16 ci8           0.00240 ms (+-1.24%)     1.7 GB/s  err 7.63e-06  ok
+  reg   16x16 ci16          0.00231 ms (+-0.14%)     1.8 GB/s  err 7.63e-06  ok
+  reg   32x16 ci4           0.00192 ms (+-0.18%)     2.1 GB/s  err 7.63e-06  ok
+  reg   32x16 ci8           0.00250 ms (+-0.14%)     1.6 GB/s  err 7.63e-06  ok
+  smem  32x4 ci4            0.00277 ms (+-0.17%)     1.5 GB/s  err 7.63e-06  ok
+  smem  32x4 ci8            0.00439 ms (+-0.07%)     0.9 GB/s  err 7.63e-06  ok
+  smem  32x4 ci16           0.00439 ms (+-0.06%)     0.9 GB/s  err 7.63e-06  ok
+  smem  32x8 ci4            0.00265 ms (+-0.10%)     1.5 GB/s  err 7.63e-06  ok
+  smem  32x8 ci8            0.00413 ms (+-0.06%)     1.0 GB/s  err 7.63e-06  ok
+  smem  32x8 ci16           0.00414 ms (+-0.05%)     1.0 GB/s  err 7.63e-06  ok
+  smem  64x4 ci8            0.00437 ms (+-0.14%)     0.9 GB/s  err 7.63e-06  ok
+  smem  16x16 ci8           0.00401 ms (+-0.07%)     1.0 GB/s  err 7.63e-06  ok
+  smem  16x16 ci16          0.00404 ms (+-1.22%)     1.0 GB/s  err 7.63e-06  ok
+  smem  32x16 ci8           0.00437 ms (+-0.05%)     0.9 GB/s  err 7.63e-06  ok
+
+# summary (best correct config per family)
+  best naive  naive 8x8x8               0.00141 ms      2.9 GB/s
+  best reg    reg   32x4 ci1            0.00142 ms      2.9 GB/s
+  best smem   smem  32x8 ci4            0.00265 ms      1.5 GB/s
+  HAND-TUNED CEILING: reg   32x4 ci1  0.00142 ms
+### PPCG tuned cfg=[2,4,64 | 2,4,64]
+ppcg    0.00134 ms (+-1.18%) block 8x4x2 grid 2x4 timed 200  err 7.63e-06  ok
+### 3D M=16 N=4096 MDH untuned 
+=== 4-way 3D matvec comparison: Ap = A*p, N=4096 (16x16x16 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.00238  7.629e-06      yes
+mdh           0.00186  7.629e-06      yes
+ppcg          0.00399  7.629e-06      yes
+cusparse      0.00695  7.629e-06      yes
+### 3D M=16 N=4096 MDH tuned cfg=[4 4 16 2 0]
+=== 4-way 3D matvec comparison: Ap = A*p, N=4096 (16x16x16 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.00241  7.629e-06      yes
+mdh           0.00151  7.629e-06      yes
+ppcg          0.00400  7.629e-06      yes
+cusparse      0.00668  7.629e-06      yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 3D, side 16, N=4096 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x4x2              0.00163 ms (+-3.72%)    20.1 GB/s  err 0.00e+00  ok
+  naive 8x8x8               0.00150 ms (+-0.67%)    21.9 GB/s  err 0.00e+00  ok
+  reg   32x4 ci1            0.00159 ms (+-2.29%)    20.6 GB/s  err 7.63e-06  ok
+  reg   32x4 ci4            0.00187 ms (+-0.12%)    17.5 GB/s  err 7.63e-06  ok
+  reg   32x4 ci8            0.00248 ms (+-0.17%)    13.2 GB/s  err 7.63e-06  ok
+  reg   32x4 ci16           0.00360 ms (+-0.11%)     9.1 GB/s  err 7.63e-06  ok
+  reg   32x8 ci1            0.00155 ms (+-0.20%)    21.2 GB/s  err 7.63e-06  ok
+  reg   32x8 ci4            0.00190 ms (+-0.39%)    17.2 GB/s  err 7.63e-06  ok
+  reg   32x8 ci8            0.00252 ms (+-0.12%)    13.0 GB/s  err 7.63e-06  ok
+  reg   32x8 ci16           0.00371 ms (+-0.08%)     8.8 GB/s  err 7.63e-06  ok
+  reg   64x4 ci4            0.00193 ms (+-0.15%)    16.9 GB/s  err 7.63e-06  ok
+  reg   64x4 ci8            0.00251 ms (+-0.11%)    13.1 GB/s  err 7.63e-06  ok
+  reg   64x4 ci16           0.00371 ms (+-0.06%)     8.8 GB/s  err 7.63e-06  ok
+  reg   16x16 ci4           0.00192 ms (+-0.10%)    17.1 GB/s  err 7.63e-06  ok
+  reg   16x16 ci8           0.00251 ms (+-0.13%)    13.0 GB/s  err 7.63e-06  ok
+  reg   16x16 ci16          0.00360 ms (+-0.07%)     9.1 GB/s  err 7.63e-06  ok
+  reg   32x16 ci4           0.00213 ms (+-0.19%)    15.4 GB/s  err 7.63e-06  ok
+  reg   32x16 ci8           0.00275 ms (+-0.13%)    11.9 GB/s  err 7.63e-06  ok
+  smem  32x4 ci4            0.00275 ms (+-0.08%)    11.9 GB/s  err 7.63e-06  ok
+  smem  32x4 ci8            0.00447 ms (+-0.05%)     7.3 GB/s  err 7.63e-06  ok
+  smem  32x4 ci16           0.00764 ms (+-0.02%)     4.3 GB/s  err 7.63e-06  ok
+  smem  32x8 ci4            0.00286 ms (+-0.07%)    11.4 GB/s  err 7.63e-06  ok
+  smem  32x8 ci8            0.00471 ms (+-0.06%)     7.0 GB/s  err 7.63e-06  ok
+  smem  32x8 ci16           0.00802 ms (+-0.08%)     4.1 GB/s  err 7.63e-06  ok
+  smem  64x4 ci8            0.00446 ms (+-0.04%)     7.4 GB/s  err 7.63e-06  ok
+  smem  16x16 ci8           0.00422 ms (+-0.06%)     7.8 GB/s  err 7.63e-06  ok
+  smem  16x16 ci16          0.00716 ms (+-0.13%)     4.6 GB/s  err 7.63e-06  ok
+  smem  32x16 ci8           0.00480 ms (+-0.19%)     6.8 GB/s  err 7.63e-06  ok
+
+# summary (best correct config per family)
+  best naive  naive 8x8x8               0.00150 ms     21.9 GB/s
+  best reg    reg   32x8 ci1            0.00155 ms     21.2 GB/s
+  best smem   smem  32x4 ci4            0.00275 ms     11.9 GB/s
+  HAND-TUNED CEILING: reg   32x8 ci1  0.00155 ms
+### PPCG tuned cfg=[4,4,64 | 4,4,64]
+ppcg    0.00141 ms (+-1.62%) block 16x4x4 grid 4x4 timed 200  err 7.63e-06  ok
+### 3D M=24 N=13824 MDH untuned 
+=== 4-way 3D matvec comparison: Ap = A*p, N=13824 (24x24x24 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.00362  7.629e-06      yes
+mdh           0.00231  7.629e-06      yes
+ppcg          0.00828  7.629e-06      yes
+cusparse      0.00844  7.629e-06      yes
+### 3D M=24 N=13824 MDH tuned cfg=[4 2 24 2 0]
+=== 4-way 3D matvec comparison: Ap = A*p, N=13824 (24x24x24 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.00361  7.629e-06      yes
+mdh           0.00179  7.629e-06      yes
+ppcg          0.00828  7.629e-06      yes
+cusparse      0.00844  7.629e-06      yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 3D, side 24, N=13824 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x4x2              0.00179 ms (+-0.16%)    61.7 GB/s  err 0.00e+00  ok
+  naive 8x8x8               0.00166 ms (+-0.43%)    66.7 GB/s  err 0.00e+00  ok
+  reg   32x4 ci1            0.00186 ms (+-0.12%)    59.5 GB/s  err 7.63e-06  ok
+  reg   32x4 ci4            0.00201 ms (+-0.12%)    55.0 GB/s  err 7.63e-06  ok
+  reg   32x4 ci8            0.00251 ms (+-0.09%)    44.1 GB/s  err 7.63e-06  ok
+  reg   32x4 ci16           0.00359 ms (+-0.09%)    30.8 GB/s  err 7.63e-06  ok
+  reg   32x8 ci1            0.00186 ms (+-0.16%)    59.6 GB/s  err 7.63e-06  ok
+  reg   32x8 ci4            0.00210 ms (+-0.24%)    52.7 GB/s  err 7.63e-06  ok
+  reg   32x8 ci8            0.00259 ms (+-0.46%)    42.7 GB/s  err 7.63e-06  ok
+  reg   32x8 ci16           0.00371 ms (+-0.04%)    29.8 GB/s  err 7.63e-06  ok
+  reg   64x4 ci4            0.00210 ms (+-0.12%)    52.6 GB/s  err 7.63e-06  ok
+  reg   64x4 ci8            0.00260 ms (+-0.50%)    42.5 GB/s  err 7.63e-06  ok
+  reg   64x4 ci16           0.00370 ms (+-0.07%)    29.9 GB/s  err 7.63e-06  ok
+  reg   16x16 ci4           0.00212 ms (+-0.09%)    52.2 GB/s  err 7.63e-06  ok
+  reg   16x16 ci8           0.00262 ms (+-0.14%)    42.1 GB/s  err 7.63e-06  ok
+  reg   16x16 ci16          0.00385 ms (+-0.09%)    28.7 GB/s  err 7.63e-06  ok
+  reg   32x16 ci4           0.00213 ms (+-0.12%)    52.0 GB/s  err 7.63e-06  ok
+  reg   32x16 ci8           0.00277 ms (+-0.20%)    40.0 GB/s  err 7.63e-06  ok
+  smem  32x4 ci4            0.00298 ms (+-0.09%)    37.1 GB/s  err 7.63e-06  ok
+  smem  32x4 ci8            0.00470 ms (+-0.07%)    23.5 GB/s  err 7.63e-06  ok
+  smem  32x4 ci16           0.00787 ms (+-0.10%)    14.1 GB/s  err 7.63e-06  ok
+  smem  32x8 ci4            0.00310 ms (+-0.11%)    35.6 GB/s  err 7.63e-06  ok
+  smem  32x8 ci8            0.00491 ms (+-0.04%)    22.5 GB/s  err 7.63e-06  ok
+  smem  32x8 ci16           0.00846 ms (+-0.03%)    13.1 GB/s  err 7.63e-06  ok
+  smem  64x4 ci8            0.00469 ms (+-0.04%)    23.6 GB/s  err 7.63e-06  ok
+  smem  16x16 ci8           0.00579 ms (+-0.26%)    19.1 GB/s  err 7.63e-06  ok
+  smem  16x16 ci16          0.01018 ms (+-0.02%)    10.9 GB/s  err 7.63e-06  ok
+  smem  32x16 ci8           0.00542 ms (+-0.06%)    20.4 GB/s  err 7.63e-06  ok
+
+# summary (best correct config per family)
+  best naive  naive 8x8x8               0.00166 ms     66.7 GB/s
+  best reg    reg   32x8 ci1            0.00186 ms     59.6 GB/s
+  best smem   smem  32x4 ci4            0.00298 ms     37.1 GB/s
+  HAND-TUNED CEILING: reg   32x8 ci1  0.00186 ms
+### PPCG tuned cfg=[2,4,64 | 2,4,32]
+ppcg    0.00166 ms (+-0.15%) block 24x4x2 grid 6x12 timed 200  err 7.63e-06  ok
+### 3D M=32 N=32768 MDH untuned 
+=== 4-way 3D matvec comparison: Ap = A*p, N=32768 (32x32x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.01527  1.144e-05      yes
+mdh           0.00334  7.629e-06      yes
+ppcg          0.02628  7.629e-06      yes
+cusparse      0.01772  7.629e-06      yes
+### 3D M=32 N=32768 MDH tuned cfg=[8 2 16 2 0]
+=== 4-way 3D matvec comparison: Ap = A*p, N=32768 (32x32x32 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.01551  1.144e-05      yes
+mdh           0.00231  7.629e-06      yes
+ppcg          0.02630  7.629e-06      yes
+cusparse      0.01782  7.629e-06      yes
+=== hand-tuned matrix-free baseline: Ap = A*p, 3D, side 32, N=32768 ===
+device: NVIDIA GeForce RTX 3050 Laptop GPU, 16 SMs
+Methodology: >=300 ms warmup + 200 timed launches, cudaEvent, averaged; checked vs CPU reference.
+GB/s = 8*N bytes (minimal traffic) / time.
+
+# sweep (every config is timed and verified)
+  naive 32x4x2              0.00205 ms (+-0.17%)   127.6 GB/s  err 0.00e+00  ok
+  naive 8x8x8               0.00271 ms (+-0.26%)    96.9 GB/s  err 0.00e+00  ok
+  reg   32x4 ci1            0.00236 ms (+-0.15%)   111.3 GB/s  err 7.63e-06  ok
+  reg   32x4 ci4            0.00209 ms (+-0.11%)   125.6 GB/s  err 7.63e-06  ok
+  reg   32x4 ci8            0.00256 ms (+-0.09%)   102.3 GB/s  err 7.63e-06  ok
+  reg   32x4 ci16           0.00361 ms (+-0.05%)    72.6 GB/s  err 7.63e-06  ok
+  reg   32x8 ci1            0.00234 ms (+-0.22%)   112.2 GB/s  err 7.63e-06  ok
+  reg   32x8 ci4            0.00209 ms (+-0.16%)   125.7 GB/s  err 7.63e-06  ok
+  reg   32x8 ci8            0.00260 ms (+-0.19%)   101.0 GB/s  err 7.63e-06  ok
+  reg   32x8 ci16           0.00373 ms (+-0.02%)    70.2 GB/s  err 7.63e-06  ok
+  reg   64x4 ci4            0.00212 ms (+-0.28%)   123.9 GB/s  err 7.63e-06  ok
+  reg   64x4 ci8            0.00265 ms (+-0.14%)    99.1 GB/s  err 7.63e-06  ok
+  reg   64x4 ci16           0.00373 ms (+-0.06%)    70.3 GB/s  err 7.63e-06  ok
+  reg   16x16 ci4           0.00220 ms (+-0.17%)   119.1 GB/s  err 7.63e-06  ok
+  reg   16x16 ci8           0.00267 ms (+-0.23%)    98.3 GB/s  err 7.63e-06  ok
+  reg   16x16 ci16          0.00386 ms (+-0.06%)    67.9 GB/s  err 7.63e-06  ok
+  reg   32x16 ci4           0.00218 ms (+-0.13%)   120.2 GB/s  err 7.63e-06  ok
+  reg   32x16 ci8           0.00279 ms (+-0.15%)    94.0 GB/s  err 7.63e-06  ok
+  smem  32x4 ci4            0.00302 ms (+-0.05%)    86.8 GB/s  err 7.63e-06  ok
+  smem  32x4 ci8            0.00459 ms (+-0.05%)    57.1 GB/s  err 7.63e-06  ok
+  smem  32x4 ci16           0.00754 ms (+-0.03%)    34.8 GB/s  err 7.63e-06  ok
+  smem  32x8 ci4            0.00313 ms (+-0.08%)    83.9 GB/s  err 7.63e-06  ok
+  smem  32x8 ci8            0.00468 ms (+-0.03%)    56.0 GB/s  err 7.63e-06  ok
+  smem  32x8 ci16           0.00800 ms (+-0.03%)    32.8 GB/s  err 7.63e-06  ok
+  smem  64x4 ci8            0.00456 ms (+-0.05%)    57.5 GB/s  err 7.63e-06  ok
+  smem  16x16 ci8           0.00561 ms (+-0.04%)    46.7 GB/s  err 7.63e-06  ok
+  smem  16x16 ci16          0.00979 ms (+-0.08%)    26.8 GB/s  err 7.63e-06  ok
+  smem  32x16 ci8           0.00519 ms (+-0.05%)    50.5 GB/s  err 7.63e-06  ok
+
+# summary (best correct config per family)
+  best naive  naive 32x4x2              0.00205 ms    127.6 GB/s
+  best reg    reg   32x8 ci4            0.00209 ms    125.7 GB/s
+  best smem   smem  32x4 ci4            0.00302 ms     86.8 GB/s
+  HAND-TUNED CEILING: reg   32x8 ci4  0.00209 ms
+### PPCG tuned cfg=[4,16,32 | 4,8,32]
+ppcg    0.00192 ms (+-0.13%) block 32x8x4 grid 2x8 timed 200  err 7.63e-06  ok

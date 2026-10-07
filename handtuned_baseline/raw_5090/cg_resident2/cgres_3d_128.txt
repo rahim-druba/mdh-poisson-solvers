@@ -1,0 +1,18 @@
+# hand-tuned reg 64x4 c4; MDH tuned cfg [2 4 64 2 0]; PPCG tuned cfg [16,8,32 | 4,8,32] (candidate 484)
+=== GPU-resident CG, 3D side 128 N=2097152, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+cg-resident MV=0     0.05202 ms/iter (+-0.46%)   residual norm after 100 iterations: 4.736143e+02
+=== GPU-resident CG, 3D side 128 N=2097152, MV=3, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+cg-resident MV=3     0.05140 ms/iter (+-0.41%)   residual norm after 100 iterations: 4.736101e+02
+=== GPU-resident CG, 3D side 128 N=2097152, MV=4, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+cg-resident MV=4     0.05355 ms/iter (+-0.21%)   residual norm after 100 iterations: 4.736143e+02
+=== GPU-resident CG, 3D side 128 N=2097152, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+CSR: nnz=14581760
+cg-resident MV=1     0.12640 ms/iter (+-0.13%)   residual norm after 100 iterations: 4.736186e+02
+=== GPU-resident CG, 3D side 128 N=2097152, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+CSR: nnz=14581760
+cg-resident MV=2     0.12801 ms/iter (+-0.23%)   residual norm after 100 iterations: 4.736118e+02

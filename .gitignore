@@ -95,3 +95,24 @@ __pycache__/
 # editor / OS noise
 .DS_Store
 *.swp
+
+# review-revision experiments (handtuned_baseline/, ppcg_tuning/, mdh_specs/)
+handtuned_baseline/bin/
+handtuned_baseline/mdh_vec/*_1.cu
+handtuned_baseline/mdh_vec/*_2.cu
+handtuned_baseline/*.bak
+handtuned_baseline/*.pre_vec
+ppcg_tuning/cands*/
+ppcg_tuning/gen/
+ppcg_tuning/bin/
+mdh_specs/build_specs/
+dot_1.cu
+dot_2.cu
+axpy_1.cu
+axpy_2.cu
+__pycache__/
+
+# raw Nsight Compute dumps are normally not tracked; these are the evidence for the tuned-kernel re-profile in the paper
+!roofline/mdh_3d_*_tuned_ncu.txt
+!roofline/ht_3d_*_ncu.txt
+!roofline/occ_mdh_3d_*_tuned.txt

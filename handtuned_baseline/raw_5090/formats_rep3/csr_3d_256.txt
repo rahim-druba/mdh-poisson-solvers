@@ -1,0 +1,4 @@
+=== CSR / cuSPARSE: 3D side 256, N=16777216 ===
+device: NVIDIA GeForce RTX 5090
+  csr-scalar      0.68625 ms   err 1.14e-05  ok
+  cusparse        0.75315 ms   err 1.14e-05  ok

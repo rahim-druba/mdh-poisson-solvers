@@ -1,0 +1,11 @@
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=0, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+cg-resident MV=0     0.06652 ms/iter (+-0.21%)   residual norm after 100 iterations: 4.981465e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=1, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+CSR: nnz=20963328
+cg-resident MV=1     0.20764 ms/iter (+-0.20%)   residual norm after 100 iterations: 4.981558e+04
+=== GPU-resident CG, 2D 2048x2048 N=4194304, MV=2, 100 iterations ===
+device: NVIDIA GeForce RTX 5090
+CSR: nnz=20963328
+cg-resident MV=2     0.17160 ms/iter (+-0.12%)   residual norm after 100 iterations: 4.980924e+04
