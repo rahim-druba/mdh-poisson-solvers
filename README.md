@@ -42,6 +42,10 @@ Artifact repository: https://gitlab.com/mdh-project/pact_2019_artifact
 
 The CUDA backend used in this repository (`cuda_generator.hpp`) was added to that framework in https://github.com/rahim-druba/mdh-cuda-stencil-kernels. The generator itself is not part of this repository. What is here are the MDH specifications that are given to it (`mdh_specs/` and `2_mdh_sparse/`); the kernels are generated from them by `mdh_specs/generate.sh`. PPCG is described by Verdoolaege et al., ACM Transactions on Architecture and Code Optimization, 2013. Sergei Gorlatch is a co-author of the paper that this repository accompanies.
 
+## License
+
+The code in this repository is released under the MIT license (see `LICENSE`). The MDH framework and the PACT 2019 artifact are not part of this repository and have their own terms.
+
 ## Repository structure
 
 | Folder | What it is |

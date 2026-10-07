@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite it as below."
+title: "Code, MDH specifications and raw logs for the conjugate gradient case study"
+type: software
+authors:
+  - family-names: "Druba"
+    given-names: "Rahim Ahmed"
+    orcid: "https://orcid.org/0009-0001-2177-9960"
+repository-code: "https://github.com/rahim-druba/mdh-poisson-solvers"
+license: MIT
+version: "v1.2"
+date-released: "2026-10-07"
+abstract: "Matrix-free and CSR Poisson solvers (CG and multigrid) on GPU, hand-tuned kernels, PPCG tuning scripts, MDH specifications of the stencil, the dot product and the vector update, and the raw logs of all measurements on an RTX 3050 Laptop GPU and an RTX 5090."
