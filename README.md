@@ -25,6 +25,23 @@ Both of these sit alongside a hand-written CUDA baseline (what a person would wr
 
 The question this whole project investigates: for a memory-bound stencil operator like the discrete Poisson equation, how much does the code-generation strategy matter, and where do the four approaches diverge?
 
+## Prior work and acknowledgements
+
+The MDH framework, its mathematical foundations and the OpenCL code generator were developed by Ari Rasch, Richard Schulze and Sergei Gorlatch:
+
+```bibtex
+@inproceedings{rasch2019mdh,
+  title={Generating Portable High-Performance Code via Multi-Dimensional Homomorphisms},
+  author={Rasch, Ari and Schulze, Richard and Gorlatch, Sergei},
+  booktitle={PACT},
+  year={2019}
+}
+```
+
+Artifact repository: https://gitlab.com/mdh-project/pact_2019_artifact
+
+The CUDA backend used in this repository (`cuda_generator.hpp`) was added to that framework in https://github.com/rahim-druba/mdh-cuda-stencil-kernels. The generator itself is not part of this repository. What is here are the MDH specifications that are given to it (`mdh_specs/` and `2_mdh_sparse/`); the kernels are generated from them by `mdh_specs/generate.sh`. PPCG is described by Verdoolaege et al., ACM Transactions on Architecture and Code Optimization, 2013. Sergei Gorlatch is a co-author of the paper that this repository accompanies.
+
 ## Repository structure
 
 | Folder | What it is |

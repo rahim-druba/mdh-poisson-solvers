@@ -12,7 +12,7 @@ on two NVIDIA GPUs. Scripts expect the folder layout of this repository (`tables
 | `-arch` flag of all runs here | `sm_86` | `sm_120` |
 
 PPCG 0.08.3 (clang 10) generated the PPCG kernels; the MDH kernels come from the generator in
-https://github.com/rahim-druba/mdh-cuda-stencil-kernels (tested with commit `8dae1df`).
+https://github.com/rahim-druba/mdh-cuda-stencil-kernels (tested with commit `8dae1df`), which extends the MDH PACT 2019 artifact (see the root README).
 Note: the original tables of `tables/` and `5_3d_extension/` were built without an `-arch` flag (nvcc 11.7 default `sm_52`, PTX compiled by the
 driver); all experiments in this folder use the exact architecture for every method.
 
