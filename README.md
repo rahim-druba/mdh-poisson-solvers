@@ -1,5 +1,7 @@
 # mdh-poisson-solvers
 
+[![DOI](https://zenodo.org/badge/1317798091.svg)](https://doi.org/10.5281/zenodo.23211969)
+
 Matrix-free and CSR Poisson solvers on GPU, comparing four ways of producing the same GPU kernel: a hand-written baseline, MDH's auto-tuned code generation, PPCG's polyhedral code generation, and NVIDIA's own vendor libraries (cuSPARSE and cuBLAS). Covers the Conjugate Gradient method and geometric multigrid, in both 2D and 3D, plus preconditioning, a real physical application, and detailed GPU profiling.
 
 > **Update for the revised paper (October 2026).** Sections 1 to 8 below were measured on one GPU (RTX 3050 Laptop) with MDH in a fixed, untuned

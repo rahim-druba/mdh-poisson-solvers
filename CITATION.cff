@@ -6,6 +6,7 @@ authors:
   - family-names: "Druba"
     given-names: "Rahim Ahmed"
     orcid: "https://orcid.org/0009-0001-2177-9960"
+doi: "10.5281/zenodo.23211969"
 repository-code: "https://github.com/rahim-druba/mdh-poisson-solvers"
 license: MIT
 version: "v1.2"
