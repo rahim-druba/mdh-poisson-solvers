@@ -77,24 +77,26 @@ fig.savefig("fig3_weak_scaling_efficiency.png")
 plt.close(fig)
 
 # ---------------------------------------------------------------------
-# Figure 4: roofline, % of peak bandwidth vs N -- source: ../roofline/results_3d.md
+# Figure 4: DRAM bandwidth reached vs N (3D), in percent of the 192 GB/s theoretical peak
+# source: ../roofline/results_bandwidth_3d.md (raw Nsight Compute outputs)
 # ---------------------------------------------------------------------
 fig, ax = plt.subplots(figsize=(6, 4.5))
 n_rl = [512, 4096, 13824, 32768]
-sparse_bw = [4.2, 28.3, 56.3, 72.9]
-cusparse_bw = [2.9, 21.5, 47.0, 57.4]
-mdh_bw = [0.5, 3.4, 9.6, 14.2]
-ppcg_bw = [0.7, 1.5, 2.2, 2.3]
-
-ax.plot(n_rl, sparse_bw, "o-", label="sparse (CSR)", color="#d62728")
-ax.plot(n_rl, cusparse_bw, "d-", label="cusparse (CSR)", color="#9467bd")
-ax.plot(n_rl, mdh_bw, "s-", label="mdh (matrix-free)", color="#1f77b4")
-ax.plot(n_rl, ppcg_bw, "v-", label="ppcg (matrix-free)", color="#8c564b")
+series = [
+    ("CSR (hand-written)", [3.4, 25.3, 50.2, 59.1], "o-", "#d62728"),
+    ("cuSPARSE", [2.3, 18.4, 40.2, 51.3], "d-", "#9467bd"),
+    ("MDH, untuned", [0.4, 2.7, 7.9, 12.6], "s--", "#8fb8de"),
+    ("MDH, tuned", [0.4, 3.0, 8.6, 17.9], "s-", "#1f77b4"),
+    ("hand-tuned matrix-free", [0.4, 2.9, 9.1, 15.0], "^-", "#2ca02c"),
+    ("PPCG, default schedule", [0.5, 1.4, 2.1, 2.2], "v-", "#8c564b"),
+]
+for label, y, style, color in series:
+    ax.plot(n_rl, y, style, label=label, color=color)
 ax.set_xscale("log")
 ax.set_xlabel("N (unknowns, 3D sweep)")
-ax.set_ylabel("% of peak memory bandwidth")
-ax.set_title("CSR becomes memory-bound at scale;\nMDH stays low (goes compute-bound instead)")
-ax.legend()
+ax.set_ylabel("DRAM bandwidth, % of 192 GB/s peak")
+ax.set_title("RTX 3050: CSR approaches the bandwidth limit,\nmatrix-free kernels stay low at these sizes")
+ax.legend(fontsize=9.5)
 ax.grid(alpha=0.3)
 fig.tight_layout()
 fig.savefig("fig4_roofline_bandwidth_vs_n.png")
