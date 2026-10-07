@@ -36,13 +36,12 @@ grids for 512 (16x32) and 2048 (32x64), same as the matvec table.
   MDH/sparse/cusparse (different thread/loop structure), so its output
   differs from the others in the last bit or two. Right at N=1024 that
   tiny difference happens to push the residual across the `1e-6` threshold
-  one iteration later than the other three. Worth knowing about if anyone
-  compares iteration counts directly, but it doesn't affect correctness or
+  one iteration later than the other three. This matters only when iteration counts are compared directly; it does not affect correctness or
   the final solution's accuracy.
 - **Timing scales roughly with N**, as expected for an O(N) iterative
   method with a fixed few operations per iteration, and the relative
   ordering (mdh/ppcg edge out sparse/cusparse slightly) is broadly
-  consistent across sizes, though not dramatic at any of these sizes --
+  consistent across sizes, though small at all of these sizes --
   same caveat as the matvec table: this range (512-4096) is still small
   enough that host-side overhead (CPU reductions, `cudaMemcpy` round trips)
   dominates over which matvec kernel is used.

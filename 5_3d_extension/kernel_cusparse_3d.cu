@@ -5,7 +5,7 @@
 //
 // cuSPARSE 3D solver -- direct 3D extension of
 // ../4_cusparse/kernel_cusparse.cu. Unlike the MDH/PPCG matrix-free
-// versions, cuSPARSE genuinely needs a CSR matrix, so this reuses the exact
+// versions, cuSPARSE needs a CSR matrix, so this reuses the exact
 // CSR builder from kernel_sparse_3d.cu.
 
 #include <assert.h>

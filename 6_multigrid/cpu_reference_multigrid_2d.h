@@ -13,7 +13,7 @@
 // 2I). This is the standard textbook choice (Briggs et al., "A Multigrid
 // Tutorial") and matters more than it looks: an earlier attempt using
 // "coarse I <-> fine 2I" diverged once a 3rd coarsening level was added,
-// traced to a genuine bug -- that alignment puts the coarsest grid's first
+// traced to a bug -- that alignment puts the coarsest grid's first
 // interior point at a DIFFERENT physical distance from the domain boundary
 // than the coarse operator's own uniform-spacing assumption implies, so
 // the coarse-grid correction equation silently solves the wrong boundary

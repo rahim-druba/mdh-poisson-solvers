@@ -1,6 +1,9 @@
 # Measured roofline profiling - Nsight Compute
 
-Real, measured bandwidth and compute utilization numbers for all four
+> Note (revision): statements below about a compute-bound regime of the matrix-free kernel and about PPCG's single-block schedule refer to the untuned MDH
+> configuration and PPCG's default schedule. See the update at the top of the root README for the tuned results.
+
+Measured bandwidth and compute utilization numbers for all four
 matvec kernels, instead of relying on a theoretical ridge-point estimate.
 Profiled with Nsight Compute 2022.2.1 (`ncu`), one steady-state matvec
 kernel launch (5th CG iteration, well past any cold-start effect) from
@@ -29,14 +32,13 @@ the percentages below are trustworthy).
 (Raw `ncu` reports: `sparse_ncu.txt`, `mdh_ncu.txt`, `ppcg_ncu.txt`,
 `cusparse_ncu.txt` in this folder.)
 
-## What this actually shows
+## What this shows
 
-**Two honest findings, one expected and one that complicates the simple
-story:**
+**Two findings, one expected and one that complicates the memory-bound expectation:**
 
-1. **Matrix-free genuinely moves ~11-12x less memory traffic than CSR, measured, not estimated.** MDH and PPCG move 16.5-17.7 KB; sparse and cuSPARSE (both true CSR, storing `val`/`col_idx` arrays) move 194.7-197.4 KB - an 11.2x-11.8x difference. This matches the expected mechanism: CSR requires loading both a value and an integer index for every nonzero, while matrix-free computes neighbor indices arithmetically and skips that indirect memory traffic entirely - now backed by a real measurement instead of an estimate.
+1. **Matrix-free moves ~11-12x less memory traffic than CSR, measured, not estimated.** MDH and PPCG move 16.5-17.7 KB; sparse and cuSPARSE (both true CSR, storing `val`/`col_idx` arrays) move 194.7-197.4 KB - an 11.2x-11.8x difference. This matches the expected mechanism: CSR requires loading both a value and an integer index for every nonzero, while matrix-free computes neighbor indices arithmetically and skips that indirect memory traffic entirely - now backed by a real measurement instead of an estimate.
 
-2. **None of these kernels are anywhere close to saturating either the memory or compute roofline at N=4096.** The highest achieved is sparse at 25.3% of peak bandwidth; matrix-free MDH/PPCG sit at under 4%. Compute utilization tops out at 10.6%. This isn't a bug or a weak implementation - it directly confirms what this project's own `tables/matvec/results.md` already said qualitatively ("kernel launch and dispatch overhead dominates over compute at every size tested here"), now with hard numbers: **at N=4096, none of these kernels are actually bandwidth-bound or compute-bound in practice - they're overhead-bound.** A theoretical roofline argument based on arithmetic intensity alone describes the *asymptotic* regime; it doesn't describe what's actually happening at this problem size. That gap between theory and measured behavior is worth being upfront about.
+2. **None of these kernels are anywhere close to saturating either the memory or compute roofline at N=4096.** The highest achieved is sparse at 25.3% of peak bandwidth; matrix-free MDH/PPCG sit at under 4%. Compute utilization tops out at 10.6%. This isn't a bug or a weak implementation - it directly confirms what this project's own `tables/matvec/results.md` already said qualitatively ("kernel launch and dispatch overhead dominates over compute at every size tested here"), now with hard numbers: **at N=4096, none of these kernels are bandwidth-bound or compute-bound in practice - they're overhead-bound.** A theoretical roofline argument based on arithmetic intensity alone describes the *asymptotic* regime; it doesn't describe what's happening at this problem size. That gap between theory and measured behavior is worth being upfront about.
 
 ## What this means going forward
 

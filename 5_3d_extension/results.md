@@ -2,7 +2,7 @@
 
 Direct 3D extension of the 2D matrix-free/CSR/cuSPARSE Poisson-CG
 comparison in `../1_sparse_rewrite` through `../4_cusparse`, built to
-prove that the same code generation approach used in 2D actually carries
+prove that the same code generation approach used in 2D carries
 over to 3D. Every kernel below is a real, working, correctness-verified
 implementation, swept across four grid sizes the same way the 2D tables
 sweep 512/1024/2048/4096.
@@ -106,8 +106,8 @@ project's 2D tables are.
 - An earlier, unrelated dense-storage trial worked in double precision at
   larger nominal sizes; this rebuild is single precision (`float`)
   throughout and matches the scale of everything else in this project.
-  Worth knowing if the two are ever compared directly.
-- PPCG's single-block-per-kernel behavior in 3D is worth flagging
+  Keep this in mind if the two are compared directly.
+- PPCG's single-block-per-kernel behavior in 3D is noted here
   explicitly if this table is cited directly - it's PPCG's real, unmodified
   default schedule, but it makes PPCG look considerably worse in 3D than a
   `--sizes`-tuned or hand-tuned schedule might.

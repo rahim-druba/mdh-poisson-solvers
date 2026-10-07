@@ -3,7 +3,7 @@
 // GEMM_N is a -D compile-time macro so this single source builds all 4 sizes.
 //
 // The four "ways" (cuSPARSE doesn't do dense GEMM, so cuBLAS takes its slot
-// here -- matches what the original article's Table 3 actually did):
+// here -- matches what the original article's Table 3 did):
 //   naive   - hand-written one-thread-per-output kernel, no tiling
 //   mdh     - MDH-generated GEMM kernel (reused from cg-ppcg-test/gemm_spec.cpp,
 //             same source recompiled per size via -D tile macros, no regeneration)

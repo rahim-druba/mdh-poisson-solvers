@@ -63,7 +63,7 @@ __global__ void spmv_csr_kernel(int n, const int* __restrict__ row_ptr,
 
 // Builds the CSR representation of the 3D 7-point Poisson stencil directly,
 // without ever forming the dense N x N matrix (diag=6, six face-neighbors
-// -1, boundary rows simply omit the missing neighbor entries -- equivalent
+// -1, boundary rows omit the missing neighbor entries -- equivalent
 // to Dirichlet oob=0). Direct 3D extension of kernel_sparse.cu's
 // build_poisson_csr.
 int build_poisson_csr_3d(int m, int** row_ptr_out, int** col_idx_out, float** val_out) {

@@ -3,7 +3,7 @@
 // Run:
 //   ./kernel_ilu0_pcg
 //
-// ILU(0)-preconditioned CG (PCG) -- the preconditioner actually expected
+// ILU(0)-preconditioned CG (PCG) -- the preconditioner expected
 // to reduce iteration count (unlike Jacobi, see kernel_jacobi_pcg.cu).
 // Reuses build_poisson_csr from
 // ../1_sparse_rewrite/kernel_sparse.cu verbatim for the matrix.

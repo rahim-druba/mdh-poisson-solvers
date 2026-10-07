@@ -1,7 +1,7 @@
 # Preconditioned CG - results
 
 Jacobi and ILU(0) preconditioning, tested against plain CG to see whether
-either actually speeds up convergence for this operator. Both are
+either speeds up convergence for this operator. Both are
 implemented, verified, and swept across four 2D grid sizes - same domain, BC, and
 analytical solution (`u = 1 + x^2 + y^2`) as every solver in this project,
 CSR baseline (`build_poisson_csr`, identical to `1_sparse_rewrite/kernel_sparse.cu`).
@@ -34,7 +34,7 @@ prediction made before writing any code: the discrete 5-point Poisson
 operator has a constant diagonal (`diag(A) = 4I` everywhere), so a
 diagonal preconditioner is just a uniform scalar, which is algebraically
 inert for CG (the scaling cancels in the `alpha`/`beta` ratios). Jacobi
-preconditioning genuinely does nothing for this specific problem - this is
+preconditioning has no effect on this specific problem - this is
 mathematically expected for constant-coefficient problems, not a bug or a
 weak implementation, and it's now backed by measurement rather than
 assertion.
@@ -69,7 +69,7 @@ the two trends move in opposite directions. Per-iteration cost tells the
 story: at N=4096, ILU(0) averages ~0.40ms/iteration vs plain CG's
 ~0.028ms/iteration - about 15x more expensive per step. This is a known,
 well-documented characteristic of GPU sparse triangular solves: unlike
-`SpMV` (fully data-parallel), a triangular solve has genuine
+`SpMV` (fully data-parallel), a triangular solve has
 level-to-level data dependencies, making `cusparseSpSV` intrinsically far
 less parallelizable on this hardware. The two extra triangular solves per
 iteration (forward on `L`, backward on `U`) cost more than the iterations
@@ -84,7 +84,5 @@ Both preconditioners now have a real, verified answer instead of a guess:
 - **ILU(0)**: works as a *convergence* accelerant (fewer iterations,
   reliably, with the benefit growing at scale) but is **not a wall-clock
   win on this GPU** for this problem size range, due to triangular-solve
-  overhead outweighing the iteration savings. This is the honest, complete
-  picture - "we tried it, here's exactly what happened and why" - rather
-  than reporting only the iteration-count improvement without the
+  overhead outweighing the iteration savings. This reports both the iteration-count improvement and the
   wall-clock cost that comes with it.

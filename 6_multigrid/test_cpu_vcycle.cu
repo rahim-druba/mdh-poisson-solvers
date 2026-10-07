@@ -1,6 +1,6 @@
 // Pure-CPU V-cycle correctness check, before any GPU code is written.
 // Multigrid index/sign/scale bugs are cheap to make and expensive to debug
-// on GPU -- verify the scheme actually converges here first.
+// on GPU -- verify the scheme converges here first.
 //
 // Grid family m = 2^k - 1 (31, 15, 7, 3, 1), required by the "coarse I <->
 // fine 2I+1" alignment in cpu_reference_multigrid_2d.h -- see that file's

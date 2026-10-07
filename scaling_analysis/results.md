@@ -12,7 +12,7 @@ The classical definitions (Amdahl's/Gustafson's laws) are about varying
 the number of *processors* - fixed problem size across more processors
 (strong), or problem size growing proportionally with processor count
 (weak). This project is a **single-GPU** study; there is no processor
-count to vary. The honest, standard reinterpretation for a single-device
+count to vary. The standard reinterpretation for a single-device
 GPU study, used here:
 
 - **Weak scaling** -> does the *per-unit-of-work* cost stay constant as
@@ -68,20 +68,17 @@ benefit eventually loses to the growing iteration count. **This is not
 ideal weak scaling**, and it's exactly the mechanism `6_multigrid/results.md`
 already identified as the reason multigrid's advantage over CG widens with N.
 
-**Multigrid's per-unit cost falls monotonically and dramatically** - 24x
+**Multigrid's per-unit cost falls monotonically and sharply** - 24x
 more efficient per unknown at N=65025 than at N=961, with no reversal
 anywhere in the tested range. This is close to ideal weak scaling: total
 work grows ~68x, total time grows only ~2.8x, because the V-cycle count
-stays flat (6, at every size - see `6_multigrid/results.md`). This is the
-single clearest, most quantitative demonstration in this whole project of
-why the multigrid comparison mattered - it's not just faster, it scales
-fundamentally differently.
+stays flat (6, at every size - see `6_multigrid/results.md`). This is the clearest quantitative result in this project for why the
+multigrid comparison matters: multigrid is faster, and it also scales differently.
 
 ## Strong scaling (GPU utilization vs problem size)
 
 Reusing `roofline/results_occupancy.md`'s measurements - how much of the
-GPU's fixed 16-SM, 48-warp-per-SM capacity each method's kernel actually
-engages, as N grows on this fixed device:
+GPU's fixed 16-SM, 48-warp-per-SM capacity each method's kernel engages, as N grows on this fixed device:
 
 | N (3D) | sparse | mdh | ppcg | cusparse |
 |---|---:|---:|---:|---:|

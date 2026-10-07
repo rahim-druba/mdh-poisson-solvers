@@ -2,7 +2,7 @@
 
 Square N x N x N GEMM, row-major layout (matching PPCG's/MDH's own
 conventions). `cusparse` doesn't do dense GEMM, so **cuBLAS takes that slot**
-here - matches what the original article's own Table 3 actually compared
+here - matches what the original article's own Table 3 compared
 against. `bench_matmul.cu`, one binary per size, `-DGEMM_N=<size>`.
 
 Methodology: 2 warmup + 5 timed launches, `cudaEvent`, averaged - far fewer
@@ -20,7 +20,7 @@ full O(N^3) CPU reference would be impractically slow at N>=2048).
 
 GFLOP/s at N=4096: naive 484, mdh 372, ppcg 315, **cublas 4691**.
 
-## What this shows (and it's a genuinely different story than the matvec table)
+## What this shows (the result differs from the matvec table)
 
 - **cuBLAS wins by 10-15x at every size, no contest.** This is the expected
   outcome: cuBLAS is the right baseline for a dense GEMM specifically
@@ -29,8 +29,7 @@ GFLOP/s at N=4096: naive 484, mdh 372, ppcg 315, **cublas 4691**.
   (likely using tensor-core or highly specialized code paths this RTX 3050
   supports); no generated kernel here comes close.
 - **Naive beats both MDH and PPCG at every size tested.** This is the
-  opposite ordering from the matvec table, and worth taking seriously
-  rather than glossing over: unlike the matvec case, both MDH's and PPCG's
+  opposite ordering from the matvec table, and should not be glossed over: unlike the matvec case, both MDH's and PPCG's
   GEMM kernels here are running an **untuned first-guess tile
   configuration** (L_CB 64x64x16, reused as-is from prior int-typed work in
   `cg-ppcg-test`), not a searched/optimal one. Prior work in that same repo
@@ -44,7 +43,6 @@ GFLOP/s at N=4096: naive 484, mdh 372, ppcg 315, **cublas 4691**.
 - **This table is the least connected to the CG rewrite itself** (as
   flagged before starting this) - CG never does a matmul - but it directly
   answers what "matrix multiplication" would show if reproduced properly
-  against the correct baseline (cuBLAS, not cuSPARSE), and the honest
-  result is that neither generator's default config beats a naive kernel
+  against the correct baseline (cuBLAS, not cuSPARSE), and the result is that neither generator's default config beats a naive kernel
   here, let alone cuBLAS. A fair MDH/PPCG comparison on GEMM would need
   the tuning sweep this table skipped.

@@ -44,12 +44,12 @@ agreement, the standard approach when no analytical answer exists.
 computed solutions = 2.0e-06** (mean 2.1e-07) - the same float32
 rounding-level agreement every other cross-method check in this project
 shows. Both solvers land on the identical iteration count, identical peak
-temperature, identical peak location. This is real confirmation that MDH
-solves a genuine physical problem correctly, not just the polynomial
+temperature, identical peak location. This confirms that MDH
+solves a physical problem correctly, not just the polynomial
 chosen for easy verification.
 
 **Physical sanity**: peak temperature at grid (31,31) -> physical
-(0.492, 0.508), essentially exactly the source center (0.5, 0.5); minimum
+(0.492, 0.508), close to the source center (0.5, 0.5); minimum
 temperature (0.0016) near the imposed `g=0` boundary; smooth radial
 falloff visible in the rendered field.
 
@@ -64,7 +64,7 @@ heat source with a cooled frame.
 ## Why this matters
 
 The same MDH-generated kernel already verified against a synthetic
-polynomial is shown here solving a genuine physical scenario (heat
+polynomial is shown here solving a physical scenario (heat
 conduction with a localized source), cross-checked against an independent
 hand-written solver rather than a known formula, with a rendered result a
 reader can look at rather than only an error table. No kernel code changed

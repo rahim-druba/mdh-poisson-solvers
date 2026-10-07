@@ -1,7 +1,7 @@
 # GPU occupancy profiling
 
-GPU occupancy tells a different story than raw timing or bandwidth alone,
-so it's worth measuring directly rather than assuming. Profiled
+GPU occupancy gives information that timing and bandwidth do not,
+so it is measured directly. Profiled
 with `ncu`'s built-in `Occupancy` section, same steady-state kernel
 launches as the roofline passes, across all four 2D matvec kernels at
 N=4096 and the full 3D sweep (N=512-32768). Raw reports: `occ_*.txt` in
@@ -19,7 +19,7 @@ configuration / grid-sizing problem.
 
 ## Achieved occupancy: driven almost entirely by grid size, not kernel design
 
-3D sweep, achieved occupancy (% of the GPU's 48 max warps/SM actually kept busy):
+3D sweep, achieved occupancy (% of the GPU's 48 max warps/SM kept busy):
 
 | N | sparse (CSR) | mdh (matrix-free) | ppcg (matrix-free) | cusparse (CSR) |
 |---|---:|---:|---:|---:|
@@ -56,7 +56,7 @@ The predicted-from-block-size numbers match the measured occupancy almost
 exactly at every size - direct, mechanical confirmation that PPCG's
 "occupancy" is entirely an artifact of one block's warp count, not GPU-wide
 utilization. **PPCG uses at most 1 of this GPU's 16 SMs (6.25% of the
-device) at every 3D size tested, full stop** - this is a stronger,
+device) at every 3D size tested** - this is a stronger,
 more concrete statement than the roofline pass's low bandwidth/compute
 percentages could make on their own, since those numbers alone could in
 principle be explained by "PPCG's kernel body just does less work per
@@ -73,6 +73,4 @@ generated schedule - `cudaEvent` timing (slower), roofline bandwidth/compute
 mechanically confirmed via block-size arithmetic). This is PPCG's
 unmodified default schedule (no `--sizes` flag used anywhere in this
 project, matching the 2D pipeline), not a tuning failure on our part - but
-it is a real, structural limitation of the polyhedral compiler's one-shot
-static scheduling for this problem shape in 3D, worth stating plainly
-rather than softened.
+it describes PPCG's default schedule for this problem shape in 3D. With tile and block sizes tuned through `--sizes` (see the top-level README), PPCG launches several blocks.

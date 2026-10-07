@@ -32,8 +32,8 @@ via `-D` macros only -- no MDH regeneration needed per size).
 
 ## What these tables establish
 
-Genuinely sparse, matrix-free implementations across 4 sizes for three
-different operations, compared against real vendor-library baselines
+Sparse (CSR) and matrix-free implementations across 4 sizes for three
+different operations, compared against vendor-library baselines
 (cuSPARSE for sparse, cuBLAS for dense) rather than a mismatched one. See
 the rest of this project (`5_3d_extension/`, `6_multigrid/`,
 `7_preconditioning/`, `8_real_application/`, `roofline/`,

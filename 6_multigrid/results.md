@@ -42,7 +42,7 @@ solution at every size below.
 **The V-cycle count is exactly 6 at every size tested - an 8x range in
 grid side length (31 to 255), a 68x range in unknowns (961 to 65025), zero
 change in iteration count.** This is the textbook multigrid property that
-makes this comparison worth having: unlike CG, whose iteration count grows
+is the reason for this comparison: unlike CG, whose iteration count grows
 with the grid (condition number scales with N), multigrid's convergence
 rate is asymptotically grid-independent.
 
@@ -53,7 +53,7 @@ needs produces residuals ~1000x larger in magnitude than the CG solvers'
 float32's precision floor before ever being reached at larger sizes,
 confirmed empirically. `1e-5` relative converges cleanly everywhere and
 still gives ~1e-4 solution accuracy - slightly looser than the CG solvers'
-typical ~1e-6, a real, honest difference worth being upfront about.)*
+typical ~1e-6, a difference stated here for completeness.)*
 
 ## Table: multigrid vs CG, matching sizes
 
@@ -79,7 +79,7 @@ constant, it widens indefinitely as the problem gets larger.
 A real, independently-verified geometric multigrid solver now exists,
 benchmarked against every CG variant in this project at matching problem
 sizes, on the identical PDE, showing exactly the widening-gap pattern
-multigrid theory predicts. Any honest evaluation of code-generation
+multigrid theory predicts. An evaluation of code-generation
 strategies for this kind of solver should sit next to this comparison, not
 only next to other CG variants.
 

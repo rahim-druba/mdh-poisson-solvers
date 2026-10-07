@@ -11,7 +11,7 @@
 // ../2_mdh_sparse/kernel_mdh_sparse.cu, ../3_ppcg/kernel_ppcg_sparse.cu:
 // fulln=66 -> interior grid 64x64 -> N=4096.
 //
-// Unlike the MDH/PPCG matrix-free versions, cuSPARSE genuinely needs a CSR
+// Unlike the MDH/PPCG matrix-free versions, cuSPARSE needs a CSR
 // matrix (that's the whole point of comparing it -- "true CSR storage" per
 // the plan) so this reuses the exact CSR builder from kernel_sparse.cu.
 #ifndef FULLN
