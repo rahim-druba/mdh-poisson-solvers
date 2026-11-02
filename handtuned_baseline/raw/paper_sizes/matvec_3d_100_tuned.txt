@@ -1,0 +1,12 @@
+### 3D M=100 N=1000000 MDH tuned cfg=[4 4 4 2 0]
+# NOTE: see matvec_3d_100_untuned.txt -- the embedded ppcg column is not valid at
+# this size; sparse/mdh/cusparse below are correct and were used for Table 4.
+=== 4-way 3D matvec comparison: Ap = A*p, N=1000000 (100x100x100 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.37826  1.144e-05      yes
+mdh           0.07291  1.144e-05      yes
+ppcg          0.00005  1.144e-05      yes
+cusparse      0.41897  1.144e-05      yes

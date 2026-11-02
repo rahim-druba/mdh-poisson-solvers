@@ -1,0 +1,4 @@
+### PPCG default (bench_matvec_3d.cu's embedded ppcg column is invalid at this
+### size, see matvec_3d_100_untuned.txt; this is the correct default-schedule
+### number, from the dedicated ppcg_tuning/bench_ppcg.cu harness, block 4x4x32 grid 4x4)
+ppcg    0.13340 ms (+-1.92%) block 4x4x32 grid 4x4 timed 200  err 9.54e-06  ok

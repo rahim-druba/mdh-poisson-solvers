@@ -1,0 +1,14 @@
+# MDH tuning 2d side 1000: 8 candidate configs (cfg = L_CB dims, P_CB, cache)
+  stage1 cfg=[4 8 1 0] 0.10270 ms
+  stage1 cfg=[4 8 1 1] 0.13446 ms
+  stage1 cfg=[4 8 2 0] 0.08719 ms
+  stage1 cfg=[4 8 2 1] 0.19725 ms
+  stage1 cfg=[8 8 1 0] 0.05966 ms
+  stage1 cfg=[8 8 1 1] 0.07495 ms
+  stage1 cfg=[8 8 2 0] 0.05381 ms
+  stage1 cfg=[8 8 2 1] 0.10724 ms
+# stage 2: top 3 re-timed with REPS=10 (first dropped)
+  stage2 cfg=[8 8 2 0] 0.05413 ms
+  stage2 cfg=[8 8 1 0] 0.06056 ms
+  stage2 cfg=[8 8 1 1] 0.07630 ms
+BEST_MDH_TUNED 0.05413 ms cfg=[8 8 2 0]

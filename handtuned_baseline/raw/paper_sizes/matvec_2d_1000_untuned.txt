@@ -1,0 +1,10 @@
+### 2D N=1000000 (1000x1000) MDH untuned 
+=== 4-way matvec comparison: Ap = A*p, N=1000000 (1000x1000 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms    max error    correct
+--------------------------------------------------
+sparse        0.28468    7.629e-06        yes
+mdh           0.07165    7.629e-06        yes
+ppcg          0.04810    0.000e+00        yes
+cusparse      0.32331    7.629e-06        yes

@@ -1,0 +1,2 @@
+### PPCG tuned cfg=[8,128 | 2,128]
+ppcg    0.40364 ms (+-1.19%) block 128x2x1 grid 24x256 timed 200  err 0.00e+00  ok

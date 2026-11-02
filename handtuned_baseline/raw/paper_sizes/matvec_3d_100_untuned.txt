@@ -1,0 +1,17 @@
+### 3D M=100 N=1000000 MDH untuned 
+# NOTE: bench_matvec_3d.cu's embedded ppcg column hardcodes block(4,4,M), grid(1,1),
+# which matched PPCG's real default-schedule geometry at the original small sizes
+# (M<=32) but not at M=100, where PPCG's actual default dims are 4x4x32 block,
+# 4x4 grid (see ppcg_tuned_3d_100.txt's sibling, the default-schedule run, for the
+# correct number: 0.13352 ms, from the dedicated ppcg_tuning/bench_ppcg.cu harness).
+# The ppcg line below is left in for completeness but was NOT used for Table 4;
+# sparse/mdh/cusparse below are correct and were used.
+=== 4-way 3D matvec comparison: Ap = A*p, N=1000000 (100x100x100 grid) ===
+Methodology: >=300ms time-based warmup + 200 timed launches, cudaEvent, averaged.
+
+method         avg ms  max error  correct
+--------------------------------------------------
+sparse        0.37533  1.144e-05      yes
+mdh           0.10996  1.144e-05      yes
+ppcg          0.00005  1.144e-05      yes
+cusparse      0.42758  1.144e-05      yes
